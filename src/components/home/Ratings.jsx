@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { comment } from "../../constants/Comment";
 import Slider from "react-slick";
+import { motion } from "framer-motion";
 
 const Ratings = ({ img4 }) => {
   const sliderRef = useRef(null);
@@ -53,9 +54,15 @@ const Ratings = ({ img4 }) => {
   return (
     <div className="rating-section">
       <div className="rating-wrap">
-        <div className="rating-left">
+        <motion.div
+          initial={{ x: -100, scale: 0 }}
+          whileInView={{ x: 0, scale: 1 }}
+          viewport={{ once: false, amount: 0 }}
+          transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
+          className="rating-left"
+        >
           <img src={img4} alt="reviews" />
-        </div>
+        </motion.div>
         <div className="rating-right">
           <h2>
             Student Voices:

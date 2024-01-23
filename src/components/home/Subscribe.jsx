@@ -1,8 +1,15 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Subscribe = ({ img }) => {
   return (
-    <div className="subscribe">
+    <motion.div
+      initial={{ x: -100, scale: 0 }}
+      whileInView={{ x: 0, scale: 1 }}
+      viewport={{ once: false, amount: 0 }}
+      transition={{ type: "tween", duration: 0.8 }}
+      className="subscribe"
+    >
       <h1>
         Stay In the Know: <span>Subscribe to Our Newsletter!</span>
       </h1>
@@ -20,7 +27,7 @@ const Subscribe = ({ img }) => {
         </button>
       </div>
       <img src={img} className="blogo" />
-    </div>
+    </motion.div>
   );
 };
 

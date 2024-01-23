@@ -1,12 +1,19 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Skill = ({ img3 }) => {
   return (
     <div className="skill-section">
       <div className="skill-wrap">
-        <div className="skill-left">
+        <motion.div
+          initial={{ x: -100, scale: 0 }}
+          whileInView={{ x: 0, scale: 1 }}
+          viewport={{ once: false, amount: 0 }}
+          transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
+          className="skill-left"
+        >
           <img src={img3} alt="image" />
-        </div>
+        </motion.div>
         <div className="skill-right">
           <h1>
             With the Best & <br />

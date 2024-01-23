@@ -1,5 +1,6 @@
 import React from "react";
 import MapComponent from "./MapComponent";
+import { motion } from "framer-motion";
 
 const Contact = ({ img }) => {
   return (
@@ -25,7 +26,13 @@ const Contact = ({ img }) => {
           </div>
         </div>
         <div className="contact-wrap-top2">
-          <div className="contact-left">
+          <motion.div
+            initial={{ x: -100, scale: 0 }}
+            whileInView={{ x: 0, scale: 1 }}
+            viewport={{ once: false, amount: 0 }}
+            transition={{ type: "tween", duration: 0.8 }}
+            className="contact-left"
+          >
             <div className="strip">
               <div className="strip-left">
                 <span>
@@ -59,7 +66,7 @@ const Contact = ({ img }) => {
                 <p>Shahar Bazar Cinema Road Gandhi Nagar Laharpur Sitapur</p>
               </div>
             </div>
-          </div>
+          </motion.div>
           <div className="contact-right">
             <MapComponent />
           </div>

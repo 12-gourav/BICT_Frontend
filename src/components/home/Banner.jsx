@@ -1,10 +1,17 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Banner = ({ img2 }) => {
   return (
     <div className="banner">
       <div className="first-banner">
-        <div className="left">
+        <motion.div
+          initial={{ x: -100, scale: 0 }}
+          whileInView={{ x: 0, scale: 1 }}
+          viewport={{ once: false, amount: 0 }}
+          transition={{ type: "tween", duration: 0.8 }}
+          className="left"
+        >
           <h1>
             Smart Learning Deeper <br />& More <span>- Amazing</span>
           </h1>
@@ -24,7 +31,8 @@ const Banner = ({ img2 }) => {
             the digital era.
           </p>
           <button>Join Today</button>
-        </div>
+        </motion.div>
+
         <div className="right">
           <img src={img2} alt="Banner-img" />
           <div className="pulse">

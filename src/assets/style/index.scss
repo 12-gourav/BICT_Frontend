@@ -44,6 +44,7 @@ header {
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    display: none;
 
     span {
       cursor: pointer;
@@ -970,6 +971,9 @@ header {
       .rating-slider {
         width: 100%;
         margin-top: 1rem;
+        .slick-slide > div {
+          padding: 0 1rem;
+        }
         .rating-card {
           background: #fafafa;
           padding: 1rem;
