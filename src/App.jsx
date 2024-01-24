@@ -10,6 +10,8 @@ import Gallery from "./pages/Gallery";
 import About from "./pages/About";
 import Addmission from "./pages/Addmission";
 import CourseDetail from "./pages/CourseDetail";
+import Dashboard from "./pages/admin/Dashboard";
+import DisplayProduct from "./pages/admin/products/DisplayProduct";
 
 const App = () => {
   return (
@@ -22,6 +24,12 @@ const App = () => {
         <Route path="/certificate/search" element={<CertificateSearch />} />
         <Route path="/addmission" element={<Addmission />} />
         <Route path="/gallery" element={<Gallery />} />
+        <Route path="/admin/dashboard" element={<Dashboard />}>
+          <Route
+            path="/admin/dashboard/students"
+            element={<DisplayProduct />}
+          />
+        </Route>
       </Routes>
     </>
   );
