@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Pagination } from "antd";
-import StdentModal from "../modals/StdentModal";
-import CreateStdentModal from "../modals/CreateStudentModal";
+import CreateCertificateModal from "../modals/CreateCertificateModal";
+import CertificateModal from "../modals/CertificateModal";
 
-const DisplayProduct = () => {
+const DisplayCertificate = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
 
@@ -16,13 +16,15 @@ const DisplayProduct = () => {
         </button>
       </div>
       <p className="info-text">
-        Search by Name, Date, Email Address, Phone Number
+        Search by Name, Date, Certificate Number, Course and Category
       </p>
       <div className="wrapper">
         <div className="info-top">
           <p>Display 20 out of 100 Records</p>
           <div className="btn-set">
-            <button onClick={() => setIsModalOpen2(true)}>Create Record</button>
+            <button onClick={() => setIsModalOpen2(true)}>
+              Create Certificate
+            </button>
           </div>
         </div>
         <div className="content-wrapper">
@@ -30,20 +32,9 @@ const DisplayProduct = () => {
             <thead>
               <th>Date</th>
               <th>Name</th>
-              <th>Contact</th>
+              <th>Certificate Number</th>
               <th>Course</th>
-              <th>Duration</th>
-
-              {/* <th>Father Name</th>
-              <th>Mother Name</th>
-              <th>DOB</th>
-              <th>Gender</th>
-              <th>Email</th>
-              <th>Phone No</th>
-              <th>Home Phone No</th>
-              <th>Address</th>
-              <th>10th Percentage</th>
-              <th>12th Percentage</th> */}
+              <th>Category</th>
             </thead>
             <tbody>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]?.map((d, i) => (
@@ -55,19 +46,9 @@ const DisplayProduct = () => {
                     </span>
                   </td>
 
-                  <td>+91 7355228160 </td>
+                  <td>7355228160 </td>
                   <td>Tally</td>
-                  <td>6 Months</td>
-                  {/* <td>Mr. Sunil bajpai</td>
-                  <td>Mrs. Sushila bajpai</td>
-                  <td>26 Aug 2000</td>
-                  <td>Male</td>
-                  <td>Gourav.bajpai@gmail.com</td>
-                  <td>+91 7355228160</td>
-                  <td>+91 7355228160 </td>
-                  <td>Near Boby guest House Lalganj 229206</td>
-                  <td>94.0%</td>
-                  <td>67%</td> */}
+                  <td>Accounting</td>
                 </tr>
               ))}
             </tbody>
@@ -78,13 +59,13 @@ const DisplayProduct = () => {
         </div>
       </div>
       {isModalOpen && (
-        <StdentModal
+        <CertificateModal
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
         />
       )}
       {isModalOpen2 && (
-        <CreateStdentModal
+        <CreateCertificateModal
           isModalOpen2={isModalOpen2}
           setIsModalOpen2={setIsModalOpen2}
         />
@@ -93,4 +74,4 @@ const DisplayProduct = () => {
   );
 };
 
-export default DisplayProduct;
+export default DisplayCertificate;

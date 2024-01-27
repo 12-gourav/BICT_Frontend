@@ -19,7 +19,7 @@ const Footer = () => {
             <Link className="link" to="/certificate">
               Download Certificate
             </Link>
-            <Link className="link" to="/admin/login">
+            <Link className="link" to="/admin/dashboard">
               Login panel
             </Link>
             <Link className="link" to="/gallery">

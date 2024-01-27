@@ -12,6 +12,11 @@ import Addmission from "./pages/Addmission";
 import CourseDetail from "./pages/CourseDetail";
 import Dashboard from "./pages/admin/Dashboard";
 import DisplayProduct from "./pages/admin/products/DisplayProduct";
+import DisplayCourses from "./pages/admin/products/DisplayCourses";
+import DisplayCertificate from "./pages/admin/products/DisplayCertificate";
+import DisplayNews from "./pages/admin/products/DisplayNews";
+import DisplayGallery from "./pages/admin/products/DisplayGallery";
+import Admin from "./pages/admin/Admin";
 
 const App = () => {
   return (
@@ -25,10 +30,18 @@ const App = () => {
         <Route path="/addmission" element={<Addmission />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/admin/dashboard" element={<Dashboard />}>
+          <Route path="/admin/dashboard" element={<Admin />} />
           <Route
             path="/admin/dashboard/students"
             element={<DisplayProduct />}
           />
+          <Route path="/admin/dashboard/courses" element={<DisplayCourses />} />
+          <Route
+            path="/admin/dashboard/certificate"
+            element={<DisplayCertificate />}
+          />
+          <Route path="/admin/dashboard/gallery" element={<DisplayGallery />} />
+          <Route path="/admin/dashboard/news" element={<DisplayNews />} />
         </Route>
       </Routes>
     </>
