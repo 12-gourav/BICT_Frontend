@@ -1,23 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import NewsModal from "../modals/NewsModal";
 import CreateNews from "../modals/CreateNews";
+import { getNews, searchnews } from "../../../redux/news";
 
 const DisplayNews = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+
+  const [state, setState] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [temp, setTemp] = useState();
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const fetchrecords = async () => {
+    try {
+      setLoading(true);
+      const result = await getNews(currentPage);
+      if (result?.data?.data) {
+        setState(result?.data?.data);
+        setTotal(result?.data?.total);
+        setCurrentPage(1);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const searchNews = async () => {
+    try {
+      if (query === "") {
+        return fetchrecords();
+      }
+      setLoading(true);
+      const result = await searchnews(currentPage, query);
+      if (result?.data?.data) {
+        setState(result?.data?.data);
+        setTotal(result?.data?.total);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchrecords();
+  }, [currentPage]);
+
   return (
     <section className="student">
       <div className="search-bar">
-        <input type="text" placeholder="Search" />
-        <button>
+        <input
+          onChange={(e) => setQuery(e.target.value)}
+          value={query}
+          type="text"
+          placeholder="Search"
+        />
+        <button onClick={searchNews} disabled={loading}>
           <i className="bx bx-search"></i>
         </button>
       </div>
       <p className="info-text">Search by Date</p>
       <div className="wrapper">
         <div className="info-top">
-          <p>Display 20 out of 100 Records</p>
+          <p>
+            Display {state?.length} out of {total} Records
+          </p>
           <div className="btn-set">
             <button onClick={() => setIsModalOpen2(true)}>Create News</button>
           </div>
@@ -30,30 +84,41 @@ const DisplayNews = () => {
               <th>News Discription</th>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]?.map((d, i) => (
-                <tr className={i % 2 === 0 ? "active" : ""}>
-                  <td>12 Jan 2023</td>
+              {state?.map((d, i) => (
+                <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
+                  <td>{new Date(d?.createdAt)?.toDateString()}</td>
                   <td>
-                    <span onClick={() => setIsModalOpen(true)}>
-                      Website competation organized by the events set
+                    <span
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        setTemp(d);
+                      }}
+                    >
+                      {d?.title}
                     </span>
                   </td>
 
-                  <td>Website competation organized by the events sets </td>
+                  <td>{d?.dis?.substring(0, 100)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         <div className="page">
-          <Pagination total={30} />
+          {total > 10 && <Pagination total={total} onChange={setCurrentPage} />}
         </div>
       </div>
       {isModalOpen && (
-        <NewsModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        <NewsModal
+          temp={temp}
+          fetchrecords={fetchrecords}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
       )}
       {isModalOpen2 && (
         <CreateNews
+          fetchrecords={fetchrecords}
           isModalOpen2={isModalOpen2}
           setIsModalOpen2={setIsModalOpen2}
         />

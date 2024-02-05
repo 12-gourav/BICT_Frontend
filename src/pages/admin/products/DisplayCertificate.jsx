@@ -1,17 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import CreateCertificateModal from "../modals/CreateCertificateModal";
 import CertificateModal from "../modals/CertificateModal";
+import {
+  getCertificates,
+  searchCertificates,
+} from "../../../redux/certificate";
 
 const DisplayCertificate = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [state, setState] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [current, setCurrent] = useState(1);
+  const [temp, setTemp] = useState();
+
+  const fetchRecords = async () => {
+    try {
+      setLoading(true);
+      const result = await getCertificates(current);
+      if (result?.data?.data) {
+        setState(result?.data?.data);
+        setTotal(result?.data?.total || 0);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const SearchRec = async () => {
+    try {
+      if (query === "") {
+        return fetchRecords();
+      }
+      setLoading2(true);
+      const result = await searchCertificates(current, query);
+      if (result?.data?.data) {
+        setState(result?.data?.data);
+        setTotal(result?.data?.total || 0);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading2(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecords();
+  }, []);
 
   return (
     <section className="student">
       <div className="search-bar">
-        <input type="text" placeholder="Search" />
-        <button>
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          type="text"
+          placeholder="Search"
+        />
+        <button onClick={SearchRec} disabled={loading2}>
           <i className="bx bx-search"></i>
         </button>
       </div>
@@ -20,7 +73,9 @@ const DisplayCertificate = () => {
       </p>
       <div className="wrapper">
         <div className="info-top">
-          <p>Display 20 out of 100 Records</p>
+          <p>
+            Display {state?.length} out of {total} Records
+          </p>
           <div className="btn-set">
             <button onClick={() => setIsModalOpen2(true)}>
               Create Certificate
@@ -37,29 +92,38 @@ const DisplayCertificate = () => {
               <th>Category</th>
             </thead>
             <tbody>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]?.map((d, i) => (
-                <tr className={i % 2 === 0 ? "active" : ""}>
-                  <td>12 Jan 2023</td>
+              {state?.map((d, i) => (
+                <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
+                  <td>{new Date(d?.createdAt)?.toDateString()}</td>
                   <td>
-                    <span onClick={() => setIsModalOpen(true)}>
-                      Gaurav bajpai
+                    <span
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        setTemp(d);
+                      }}
+                    >
+                      {d?.name}
                     </span>
                   </td>
 
-                  <td>7355228160 </td>
-                  <td>Tally</td>
-                  <td>Accounting</td>
+                  <td>{d?.certificate} </td>
+                  <td>{d?.course}</td>
+                  <td>{d?.category}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <div className="page">
-          <Pagination total={30} />
-        </div>
+        {total > 10 && (
+          <div className="page">
+            <Pagination total={total} onChange={setCurrent} />
+          </div>
+        )}
       </div>
       {isModalOpen && (
         <CertificateModal
+          temp={temp}
+          fetchRecords={fetchRecords}
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
         />
@@ -67,6 +131,7 @@ const DisplayCertificate = () => {
       {isModalOpen2 && (
         <CreateCertificateModal
           isModalOpen2={isModalOpen2}
+          fetchRecords={fetchRecords}
           setIsModalOpen2={setIsModalOpen2}
         />
       )}

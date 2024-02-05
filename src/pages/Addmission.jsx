@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Navbar from "../components/Nav/Navbar";
 import Footer from "../components/home/Footer";
 import { checkEmail, checkPhone } from "../utils/Helper";
+import { toast } from "react-toastify";
+import { CreateStudent } from "../redux/action";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Addmission = () => {
   const [firstName, setFirstName] = useState("");
@@ -22,6 +25,99 @@ const Addmission = () => {
   const [tweleveBoard, setTweleveBoard] = useState("");
   const [course, setCourse] = useState("");
   const [duration, setDuration] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    try {
+      if (firstName?.length === 0) {
+        return toast.error("First Name can not be empty");
+      } else if (lastName?.length === 0) {
+        return toast.error("First Name can not be empty");
+      } else if (father?.length === 0) {
+        return toast.error("Father Name can not be empty");
+      } else if (mother?.length === 0) {
+        return toast.error("Mother Name can not be empty");
+      } else if (dob?.length === 0) {
+        return toast.error("DOB can not be empty");
+      } else if (gender?.length === 0) {
+        return toast.error("Gender can not be empty");
+      } else if (email?.length === 0) {
+        return toast.error("Email can not be empty");
+      } else if (phone?.length === 0) {
+        return toast.error("Phone Number can not be empty");
+      } else if (homePhone?.length === 0) {
+        return toast.error("Home Phone Number can not be empty");
+      } else if (address?.length === 0) {
+        return toast.error("Address can not be empty");
+      } else if (tenPerncentage?.length === 0) {
+        return toast.error("Tenth Percentage can not be empty");
+      } else if (tenYear?.length === 0) {
+        return toast.error("Board Year can not be empty");
+      } else if (tenBoard?.length === 0) {
+        return toast.error("Board Name can not be empty");
+      } else if (twelvePercentage?.length === 0) {
+        return toast.error("Enter Percentage can not be empty");
+      } else if (twelveYear?.length === 0) {
+        return toast.error("Board Year can not be empty");
+      } else if (tenBoard?.length === 0) {
+        return toast.error("Board Name can not be empty");
+      } else if (course?.length === 0) {
+        return toast.error("Course Name can not be empty");
+      } else if (duration?.length === 0) {
+        return toast.error("Duration can not be empty");
+      }
+
+      setLoading(true);
+
+      const result = await CreateStudent(
+        firstName,
+        lastName,
+        dob,
+        gender,
+        father,
+        mother,
+        email,
+        phone,
+        homePhone,
+        address,
+        tenPerncentage,
+        tenBoard,
+        tenYear,
+        twelvePercentage,
+        tweleveBoard,
+        twelveYear,
+        course,
+        duration
+      );
+      if (result?.data?.data) {
+        toast.success("Application Submit Successfully");
+        setFirstName("");
+        setLastName("");
+        setfather("");
+        setMother("");
+        setDob("");
+        setGender("");
+        setEmail("");
+        setPhone("");
+        setHomePhone("");
+        setAddresss("");
+        setTenBoard("");
+        setTenPercentage("");
+        setTenYear("");
+        setTweleveBoard("");
+        setTwelevePercentage("");
+        setTenYear("");
+        setCourse("");
+        setDuration("");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -286,7 +382,9 @@ const Addmission = () => {
           </div>
         </div>
 
-        <button className="submit">Submit</button>
+        <button className="submit" disabled={loading} onClick={handleSubmit}>
+          {loading ? <LoadingOutlined /> : "Submit"}
+        </button>
         <br></br>
         <br></br>
       </section>

@@ -19,14 +19,14 @@ const Footer = () => {
             <Link className="link" to="/certificate">
               Download Certificate
             </Link>
-            <Link className="link" to="/admin/dashboard">
+            <Link className="link" to="/login">
               Login panel
             </Link>
             <Link className="link" to="/gallery">
               Gallery
             </Link>
-            <Link className="link" to="/courses">
-              Courses
+            <Link className="link" to="/admin/dashboard">
+              Admin Dashboard
             </Link>
           </div>
           <div className="hfr2">

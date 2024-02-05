@@ -1,7 +1,13 @@
-import React from "react";
+import React, { Suspense, useState } from "react";
 import { motion } from "framer-motion";
-
+import { Blurhash } from "react-blurhash";
 const Banner = ({ img2 }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
   return (
     <div className="banner">
       <div className="first-banner">
@@ -34,7 +40,27 @@ const Banner = ({ img2 }) => {
         </motion.div>
 
         <div className="right">
-          <img src={img2} alt="Banner-img" />
+          <Suspense fallback={<div>Loading...</div>}>
+            {!imageLoaded && (
+              <Blurhash
+                hash={"LKJREi?b_3%h~q?co#j]xZIoRjV?"}
+                width={"100%"}
+                height={400}
+                resolutionX={32}
+                resolutionY={32}
+                punch={1}
+                style={{ borderRadius: "5px" }}
+              />
+            )}
+
+            <img
+              src={img2} // Cloudinary image URL
+              alt="img"
+              onLoad={handleImageLoad}
+              style={{ display: !imageLoaded ? "none" : "block" }}
+            />
+          </Suspense>
+
           <div className="pulse">
             <div className="pulse-animation">
               <i className="bx bx-play-circle"></i>

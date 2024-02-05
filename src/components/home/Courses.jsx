@@ -1,12 +1,23 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState, Suspense } from "react";
 import Slider from "react-slick";
+import { getHomeCourse } from "../../redux/course";
+import { Blurhash } from "react-blurhash";
+import { Skeleton } from "antd";
 const Courses = ({ img2 }) => {
+  const [state, setState] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
   const sliderRef = useRef(null);
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: state?.length < 3 ? state?.length : 3,
     slidesToScroll: 1,
     arrows: false,
 
@@ -48,6 +59,24 @@ const Courses = ({ img2 }) => {
     }
   };
 
+  const FetchRecords = async () => {
+    try {
+      setLoading(true);
+      const result = await getHomeCourse();
+      if (result?.data?.data) {
+        setState(result?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    FetchRecords();
+  }, []);
+
   return (
     <div className="course-section">
       <div className="course-wrap">
@@ -66,39 +95,83 @@ const Courses = ({ img2 }) => {
           </div>
         </div>
         <div className="course-right">
-          <div className="course-slider">
-            <Slider ref={sliderRef} {...settings}>
-              {[1, 2, 3, 4, 5, 6]?.map((d) => (
-                <div className="course-card">
-                  <img src={img2} alt="img" />
-                  <div className="course-card-head">
-                    <span>
-                      <i className="bx bxs-star"></i> 4.5 Rating
-                    </span>
-                    <span>
-                      <i className="bx bx-user"></i>400+
-                    </span>
-                    <span>
-                      <i className="bx bx-calendar"></i>5 Months
-                    </span>
-                  </div>
-                  <div className="course-card-body">
-                    <div className="course-card-body-first">
-                      <h4>Web Designing Course</h4>
-                      <h2>
-                        <i className="bx bx-rupee"></i>2500
-                      </h2>
+          {loading ? (
+            <div className="course-slider">
+              <Slider ref={sliderRef} {...settings}>
+                {[1, 2, 3, 4]?.map((d) => (
+                  <div className="course-card">
+                    <div className="course-card-head" style={{ width: "100%" }}>
+                      <Skeleton.Image
+                        width={"100%"}
+                        active
+                        style={{ width: "20rem", height: "180px" }}
+                      />
                     </div>
-                    <p>
-                      Embark on a transformative journey with our computer
-                      courses atBashar Institute of Computer Technology.
-                    </p>
-                    <h5>Read More</h5>
+                    <div className="course-card-body">
+                      <Skeleton active size="small" block={true} rows={2} />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </Slider>
-          </div>
+                ))}
+              </Slider>
+            </div>
+          ) : (
+            <div className="course-slider">
+              <Slider ref={sliderRef} {...settings}>
+                {state?.map((d) => (
+                  <div className="course-card">
+                    <Suspense fallback={<div>Loading...</div>}>
+                      {!imageLoaded && (
+                        <Blurhash
+                          hash={d?.img?.hash || "LIO9Y*TLIWM_}FwbxUW=E3NLS#s-"} // Assuming blurhash is stored in img.blurhash
+                          width={"100%"}
+                          height={300}
+                          resolutionX={32}
+                          resolutionY={32}
+                          punch={1}
+                          style={{ borderRadius: "5px" }}
+                        />
+                      )}
+                      <img
+                        src={d?.img?.url} // Cloudinary image URL
+                        alt="img"
+                        onLoad={handleImageLoad}
+                        style={{ display: !imageLoaded ? "none" : "block" }}
+                      />
+                    </Suspense>
+                    {/* <img src={d?.img?.url} alt="img" /> */}
+                    <div className="course-card-head">
+                      <span>
+                        <i className="bx bxs-star"></i> {d?.rateing} Rating
+                      </span>
+                      <span>
+                        <i className="bx bx-user"></i>
+                        {d?.users}+
+                      </span>
+                      <span>
+                        <i className="bx bx-calendar"></i>
+                        {d?.duration} Months
+                      </span>
+                    </div>
+                    <div className="course-card-body">
+                      <div className="course-card-body-first">
+                        <h4>{d?.name}</h4>
+                        <h2>
+                          <i className="bx bx-rupee"></i>
+                          {d?.price}/-
+                        </h2>
+                      </div>
+                      <p>
+                        {d?.shortDis?.length > 100
+                          ? d?.shortDis?.substring(0, 90) + "..."
+                          : d?.shortDis}
+                      </p>
+                      <h5>Read More</h5>
+                    </div>
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          )}
         </div>
         <div className="slider-btn">
           <button className="leftbtn" onClick={previous}>

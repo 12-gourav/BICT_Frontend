@@ -1,42 +1,101 @@
-import React from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Navbar from "../components/Nav/Navbar";
 import Footer from "../components/home/Footer";
-import img from "../assets/img/banner.jpg";
-import img2 from "../assets/img/c1.jpg";
-import img3 from "../assets/img/a1.jpg";
-import img4 from "../assets/img/a3.jpg";
+import { getGallery } from "../redux/gallery";
+import { Pagination, Skeleton } from "antd";
+import { Blurhash } from "react-blurhash";
+import img from "../assets/img/b.svg";
 
 const Gallery = () => {
+  const [state, setState] = useState([]);
+  const [loading, setloading] = useState(false);
+  const [current, setCurrent] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const fetchRecords = async () => {
+    try {
+      setloading(true);
+
+      const result = await getGallery(current);
+
+      if (result?.data?.data) {
+        setState(result?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setloading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecords();
+  }, []);
+
   return (
     <>
       <Navbar />
       <section className="gallery">
         <h2>Capturing Moments in Pixels</h2>
         <p> Explore Our Dazzling Image Gallery for a Visual Feast!</p>
-        <div className="gallery-container">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]?.map(
-            (d) => (
-              <div className="g-card">
-                {d === 1 ? (
-                  <img src={img2} alt="image" />
-                ) : d === 2 ? (
-                  <img src={img3} alt="image" />
-                ) : d === 5 ? (
-                  <img src={img} alt="image" />
-                ) : (
-                  <img src={img4} alt="image" />
-                )}
+        {loading ? (
+          <div className="gallery-container">
+            {[1, 2, 3, 5, 6, 78, 89, 0]?.map((x) => (
+              <div className="g-card" key={x}>
+                <Skeleton.Image
+                  style={{ width: "18rem", height: "16rem !important" }}
+                  active
+                />
+              </div>
+            ))}
+          </div>
+        ) : state?.length === 0 ? (
+          <div className="no-data">
+            <img src={img} alt="nodata" style={{ width: "10rem" }} />
+          </div>
+        ) : (
+          <div className="gallery-container">
+            {state?.map((d) => (
+              <div className="g-card" key={d?._id}>
+                <Suspense fallback={<div>Loading...</div>}>
+                  {!imageLoaded && (
+                    <Blurhash
+                      hash={d?.img?.hash || "LIO9Y*TLIWM_}FwbxUW=E3NLS#s-"}
+                      width={"100%"}
+                      height={300}
+                      resolutionX={32}
+                      resolutionY={32}
+                      punch={1}
+                      style={{ borderRadius: "5px" }}
+                    />
+                  )}
+                  <img
+                    src={d?.img?.url} // Cloudinary image URL
+                    alt="img"
+                    onLoad={handleImageLoad}
+                    style={{ display: !imageLoaded ? "none" : "block" }}
+                  />
+                </Suspense>
+                {/* <img src={d?.img?.url} alt="image" /> */}
 
                 <div className="caption">
-                  <p>image caption is created at our institute</p>
-                  <b>12/09/2023</b>
+                  <p>{d?.caption}</p>
+                  <b>{new Date(d?.createdAt).toLocaleDateString()}</b>
                 </div>
               </div>
-            )
-          )}
-        </div>
+            ))}
+          </div>
+        )}
+
         <br></br>
-        <center>pagination</center>
+        <center>
+          {total > 10 && <Pagination total={total} onChange={setCurrent} />}
+        </center>
       </section>
       <Footer />
     </>
