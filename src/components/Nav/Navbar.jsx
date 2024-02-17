@@ -30,6 +30,9 @@ const Navbar = () => {
                 className={location?.pathname === "/" ? "link active" : "link"}
                 to="/"
               >
+                <span>
+                  <i className="bx bx-home"></i>
+                </span>
                 Home
               </Link>
               <Link
@@ -38,6 +41,9 @@ const Navbar = () => {
                 }
                 to="/about"
               >
+                <span>
+                  <i className="bx bx-doughnut-chart"></i>
+                </span>
                 About
               </Link>
               <Link
@@ -46,6 +52,9 @@ const Navbar = () => {
                 }
                 to="/course"
               >
+                <span>
+                  <i className="bx bx-book-bookmark"></i>
+                </span>
                 Courses
               </Link>
               <Link
@@ -56,6 +65,9 @@ const Navbar = () => {
                 }
                 to="/certificate/search"
               >
+                <span>
+                  <i className="bx bx-certification"></i>
+                </span>
                 Certificate
               </Link>
               <Link
@@ -64,6 +76,9 @@ const Navbar = () => {
                 }
                 to="/addmission"
               >
+                <span>
+                  <i className="bx bx-user-plus"></i>
+                </span>
                 Addmission
               </Link>
               <Link
@@ -72,7 +87,21 @@ const Navbar = () => {
                 }
                 to="/gallery"
               >
+                <span>
+                  <i className="bx bx-images"></i>
+                </span>
                 Gallery
+              </Link>
+              <Link
+                className={
+                  location?.pathname === "/news" ? "link active" : "link"
+                }
+                to="/news"
+              >
+                <span>
+                  <i className="bx bx-news"></i>
+                </span>
+                News
               </Link>
             </div>
           </div>
@@ -120,6 +149,12 @@ const Navbar = () => {
           to="/gallery"
         >
           Gallery
+        </Link>
+        <Link
+          className={location?.pathname === "/news" ? "link active" : "link"}
+          to="/news"
+        >
+          News
         </Link>
       </div>
     </header>

@@ -19,6 +19,7 @@ import DisplayNews from "./pages/admin/products/DisplayNews";
 import DisplayGallery from "./pages/admin/products/DisplayGallery";
 import Admin from "./pages/admin/Admin";
 import Login from "./pages/auth/Login";
+import News from "./pages/News.jsx";
 import { load } from "./redux/login";
 import { useDispatch } from "react-redux";
 import Auth from "./pages/auth/Auth";
@@ -59,6 +60,7 @@ const App = () => {
         <Route path="/certificate/search" element={<CertificateSearch />} />
         <Route path="/addmission" element={<Addmission />} />
         <Route path="/gallery" element={<Gallery />} />
+        <Route path="/news" element={<News />} />
         <Route path="/login" element={<Login loading={loading} />} />
 
         <Route

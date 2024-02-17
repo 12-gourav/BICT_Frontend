@@ -1,8 +1,34 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
 const MobileNav = ({ state, setState }) => {
   const location = useLocation();
+
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure want logout?",
+      // text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch({ type: "logout" });
+        localStorage.removeItem("token");
+        Swal.fire({
+          title: "Logout!",
+          text: "Logout Successfully",
+          icon: "success",
+        });
+        Navigate("/login");
+      }
+    });
+  };
 
   return (
     <div className="mobile-menu">
@@ -137,9 +163,13 @@ const MobileNav = ({ state, setState }) => {
               <span>
                 <i className="bx bx-log-out-circle"></i>
               </span>
-              <Link to="/admin/dashboard/logout" className="link">
+              <a
+                className="link"
+                onClick={handleLogout}
+                style={{ cursor: "pointer" }}
+              >
                 Logout
-              </Link>
+              </a>
             </div>
           </div>
         </div>

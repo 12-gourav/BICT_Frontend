@@ -96,25 +96,39 @@ const Courses = ({ img2 }) => {
         </div>
         <div className="course-right">
           {loading ? (
-            <div className="course-slider">
-              <Slider ref={sliderRef} {...settings}>
-                {[1, 2, 3, 4]?.map((d) => (
-                  <div className="course-card">
-                    <div className="course-card-head" style={{ width: "100%" }}>
-                      <Skeleton.Image
-                        width={"100%"}
-                        active
-                        style={{ width: "20rem", height: "180px" }}
-                      />
-                    </div>
-                    <div className="course-card-body">
-                      <Skeleton active size="small" block={true} rows={2} />
-                    </div>
+            <div className="temp-cards">
+              {[1, 2, 3]?.map((d) => (
+                <div className="course-card">
+                  <div className="course-card-head" style={{ width: "100%" }}>
+                    <Skeleton.Image
+                      active
+                      style={{ width: "20rem", height: "180px" }}
+                    />
                   </div>
-                ))}
-              </Slider>
+                  <div className="course-card-body">
+                    <Skeleton active size="small" block={true} rows={2} />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
+            // <div className="course-slider">
+            //   <Slider ref={sliderRef} {...settings}>
+            //     {[1, 2, 3]?.map((d) => (
+            //       <div className="course-card">
+            //         <div className="course-card-head" style={{ width: "100%" }}>
+            //           <Skeleton.Image
+            //             active
+            //             style={{ width: "20rem", height: "180px" }}
+            //           />
+            //         </div>
+            //         <div className="course-card-body">
+            //           <Skeleton active size="small" block={true} rows={2} />
+            //         </div>
+            //       </div>
+            //     ))}
+            //   </Slider>
+            // </div>
             <div className="course-slider">
               <Slider ref={sliderRef} {...settings}>
                 {state?.map((d) => (
@@ -124,7 +138,7 @@ const Courses = ({ img2 }) => {
                         <Blurhash
                           hash={d?.img?.hash || "LIO9Y*TLIWM_}FwbxUW=E3NLS#s-"} // Assuming blurhash is stored in img.blurhash
                           width={"100%"}
-                          height={300}
+                          height={200}
                           resolutionX={32}
                           resolutionY={32}
                           punch={1}

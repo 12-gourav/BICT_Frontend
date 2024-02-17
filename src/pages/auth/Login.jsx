@@ -76,7 +76,7 @@ const Login = ({ loading }) => {
             />
           </div>
           <button onClick={handleLogin} disabled={loading2}>
-            Login
+            {loading2 ? "Loading..." : "Login"}
           </button>
         </div>
       )}

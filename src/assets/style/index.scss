@@ -11,6 +11,14 @@ $shadow: 12px 12px 40px 0px rgba(0, 0, 0, 0.05);
 $red: #db0000;
 $shade: linear-gradient(181deg, #f40000 1.09%, #f00 99.29%); //fill
 
+.swal2-confirm {
+  background: $red !important;
+}
+.swal2-cancel {
+  background: #e4e4e4 !important;
+  color: #555555 !important;
+}
+
 header {
   width: 100%;
   padding: 10px 100px;
@@ -63,7 +71,7 @@ header {
       display: flex;
       flex-direction: column;
       z-index: 999;
-      padding: 1rem;
+      padding: 1rem 0.5rem;
 
       .mobile-nav-top {
         color: #fff;
@@ -87,11 +95,48 @@ header {
         .link {
           text-decoration: none;
           color: #fff;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 0.5rem;
+          // background: #0000008f;
+          border-radius: 5px;
+          span {
+            // background: $shade;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            i {
+              color: #fff;
+              font-size: 0.8rem;
+            }
+          }
+        }
+        .link:hover {
+          background: rgba(255, 255, 255, 0.2);
+          span {
+            background: transparent;
+          }
         }
         .link.active {
-          border-bottom: 1px solid red;
-          width: fit-content;
-          padding-bottom: 0.1rem;
+          text-decoration: none;
+          color: #fff;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 0.5rem;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 5px;
+          span {
+            // background: $shade;
+            background: transparent;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            i {
+              color: #fff;
+              font-size: 0.9rem;
+            }
+          }
         }
       }
     }
@@ -193,11 +238,12 @@ header {
 @media (max-width: 900px) {
   .banner {
     height: 100%;
-    padding: 10px;
+    padding: 1rem;
     margin-bottom: 1rem;
     .first-banner {
       flex-direction: column-reverse;
       .left {
+        margin-top: 0.5rem;
         width: 100%;
       }
       .right {
@@ -471,7 +517,7 @@ header {
   .category-section {
     width: 100%;
     height: auto;
-    padding: 10px;
+    padding: 1.5rem 1rem;
     .cat-wrap {
       width: 100%;
       .cat-left {
@@ -507,6 +553,7 @@ header {
 @media (max-width: 700px) {
   .category-section {
     margin-top: 1.5rem;
+
     .cat-wrap {
       .cat-left {
         .cl1 {
@@ -709,7 +756,7 @@ header {
 
 @media (max-width: 900px) {
   .course-section {
-    padding: 10px;
+    padding: 1rem;
     height: 100%;
     margin-top: 1rem;
     .course-wrap {
@@ -825,7 +872,7 @@ header {
 
 @media (max-width: 900px) {
   .skill-section {
-    padding: 10px;
+    padding: 1rem;
     height: 100%;
     .skill-wrap {
       flex-direction: column;
@@ -905,10 +952,11 @@ header {
 @media (max-width: 900px) {
   .subscribe {
     height: fit-content;
-    padding: 10px;
-    justify-content: flex-start;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-
+    height: 450px;
     padding-bottom: 1.5rem;
     h1 {
       font-size: 2rem;
@@ -1036,7 +1084,7 @@ header {
 
 @media (max-width: 900px) {
   .rating-section {
-    padding: 10px;
+    padding: 1rem;
     height: 100%;
 
     .rating-wrap {
@@ -1174,7 +1222,7 @@ header {
 
 @media (max-width: 900px) {
   .contact-section {
-    padding: 30px 10px;
+    padding: 3rem 1rem;
     height: 100%;
 
     .contact-wrap {
@@ -1295,7 +1343,7 @@ header {
   .faq {
     height: 100%;
     width: 100%;
-    padding: 10px 10px;
+    padding: 1rem;
     padding-bottom: 3rem;
     .faq-wrap {
       h2 {
@@ -1394,7 +1442,7 @@ footer.home-footer {
 @media (max-width: 900px) {
   footer.home-footer {
     height: 100%;
-    padding: 10px;
+    padding: 1rem;
     .home-footer-wrap {
       flex-direction: column;
       gap: 10px;
@@ -1496,7 +1544,7 @@ section.about {
 
 @media (max-width: 900px) {
   section.about {
-    padding: 10px;
+    padding: 1rem;
     .about-wrap {
       .about-wrap2 {
         flex-direction: column;
@@ -1595,7 +1643,7 @@ section.certificate {
 
 @media (max-width: 900px) {
   section.certificate {
-    padding: 10px;
+    padding: 1rem;
     h2 {
       font-size: 1.2rem;
     }
@@ -1685,7 +1733,7 @@ section.gallery {
 
 @media (max-width: 900px) {
   section.gallery {
-    padding: 10px;
+    padding: 1rem;
     .gallery-container {
       columns: 2;
     }
@@ -1694,7 +1742,7 @@ section.gallery {
 
 @media (max-width: 600px) {
   section.gallery {
-    padding: 10px;
+    padding: 1rem;
     .gallery-container {
       columns: 1;
     }
@@ -1774,7 +1822,7 @@ section.addmission {
 
 @media (max-width: 900px) {
   section.addmission {
-    padding: 10px;
+    padding: 1rem;
     .form-section {
       .form-wrap {
         flex-direction: column;
@@ -1945,7 +1993,7 @@ section.products {
 
 @media (max-width: 900px) {
   section.products {
-    padding: 10px;
+    padding: 1rem;
     .search-bar {
       width: 100%;
       input {
@@ -2076,7 +2124,7 @@ section.details {
 
 @media (max-width: 900px) {
   section.details {
-    padding: 10px;
+    padding: 1rem;
     .detail-wrap {
       flex-direction: column;
       .detail-left {
@@ -3276,4 +3324,112 @@ section.login {
 .ant-skeleton.ant-skeleton-active .ant-skeleton-image {
   width: 100% !important;
   height: 100% !important;
+}
+
+.temp-cards {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  gap: 20px;
+  .course-card {
+    width: 100%;
+    .course-card-body {
+      margin-top: 1rem;
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .temp-cards {
+    .course-card:nth-child(2) {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .temp-cards {
+    .course-card:nth-child(2) {
+      display: none;
+    }
+    .course-card:nth-child(3) {
+      display: none;
+    }
+  }
+}
+
+section.news {
+  width: 100%;
+  min-height: 500px;
+  padding: 10px 100px;
+  h2 {
+    color: #555555;
+    margin-top: 1.5rem;
+    span {
+      color: #db0000;
+    }
+  }
+  p {
+    font-size: 0.9rem;
+    color: #555555;
+    line-height: 1.5rem;
+    margin-top: 0.5rem;
+    text-align: justify;
+  }
+  .page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .news-body {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .news-card {
+      width: 100%;
+      padding: 1rem;
+      height: fit-content;
+      border: 1px solid #f3f3f3;
+      border-radius: 5px;
+      h4 {
+        color: #555555;
+        font-weight: 500;
+        text-transform: capitalize;
+      }
+      .news-bar {
+        margin-top: 0.3rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: #313131;
+        font-size: 0.8rem;
+        font-weight: 500;
+        i {
+          color: #db0000;
+        }
+      }
+      p {
+        text-align: justify;
+        font-size: 0.9rem;
+        span {
+          color: #db0000;
+          font-weight: 500;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  section.news {
+    padding: 1rem;
+    h2 {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+    }
+  }
 }
