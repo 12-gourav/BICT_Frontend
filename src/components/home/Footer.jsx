@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import img from "../../assets/img/logo.png";
 
 const Footer = () => {
   return (
     <footer className="home-footer">
       <div className="home-footer-wrap">
         <div className="hf-left">
+          <img src={img} alt="img" />
           <h5> Bashar Institute of Computer Technology</h5>
           <p>
             At our institute, we pride ourselves on fostering a vibrant learning
@@ -17,31 +19,31 @@ const Footer = () => {
           <div className="hfr1">
             <h4>Important Links</h4>
             <Link className="link" to="/certificate">
-              Download Certificate
+              <i className="bx bxs-certification"></i> Download Certificate
             </Link>
             <Link className="link" to="/login">
-              Login panel
+              <i className="bx bxs-log-in-circle"></i> Login panel
             </Link>
             <Link className="link" to="/gallery">
-              Gallery
+              <i className="bx bx-images"></i> Gallery
             </Link>
             <Link className="link" to="/admin/dashboard">
-              Admin Dashboard
+              <i className="bx bxs-dashboard"></i> Dashboard
             </Link>
           </div>
           <div className="hfr2">
             <h4>Social Links</h4>
             <a href="#" target="_blank" className="link">
-              Youtube
+              <i className="bx bxl-youtube"></i> Youtube
             </a>
             <a href="#" target="_blank" className="link">
-              Instagram
+              <i className="bx bxl-instagram-alt"></i> Instagram
             </a>
             <a href="#" target="_blank" className="link">
-              Facebook
+              <i className="bx bxl-facebook"></i> Facebook
             </a>
             <a href="#" target="_blank" className="link">
-              Twiter
+              <i className="bx bxl-twitter"></i> Twiter
             </a>
           </div>
         </div>

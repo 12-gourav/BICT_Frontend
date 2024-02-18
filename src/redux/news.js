@@ -23,6 +23,15 @@ export const getNews = async (page) => {
     console.log(error);
   }
 };
+export const getNews2 = async (page) => {
+  try {
+    return axios.get(import.meta.env.VITE_APP_BASE_URL + "/get/news2", {
+      params: {},
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const updateNews = async (id, title, dis) => {
   try {

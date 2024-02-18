@@ -3,6 +3,8 @@ import { Pagination } from "antd";
 import StdentModal from "../modals/StdentModal";
 import CreateStdentModal from "../modals/CreateStudentModal";
 import { FetchStudents, searchQuery } from "../../../redux/action";
+import LoadingTable from "../../../components/admin/LoadingTable";
+import NoData from "../../../components/admin/NoData";
 
 const DisplayProduct = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,44 +78,53 @@ const DisplayProduct = () => {
             <button onClick={() => setIsModalOpen2(true)}>Create Record</button>
           </div>
         </div>
-        <div className="content-wrapper">
-          {loading ? (
-            "Loading"
-          ) : (
-            <table>
-              <thead>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Contact</th>
-                <th>Course</th>
-                <th>Duration</th>
-              </thead>
-              <tbody>
-                {state?.map((d, i) => (
-                  <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
-                    <td>{new Date(d?.createdAt)?.toDateString()}</td>
-                    <td style={{ textTransform: "capitalize" }}>
-                      <span
-                        onClick={() => {
-                          setIsModalOpen(true);
-                          setTemp(d);
-                        }}
-                      >
-                        {d?.firstName + " " + d?.lastName}
-                      </span>
-                    </td>
+        {state?.length === 0 && !loading ? (
+          <NoData />
+        ) : (
+          <div className="content-wrapper">
+            {loading ? (
+              <LoadingTable
+                z={[1, 2, 3, 4, 5]}
+                obj={["Date", "Name", "Contact", "Course", "Duration"]}
+              />
+            ) : (
+              <table>
+                <thead>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Contact</th>
+                  <th>Course</th>
+                  <th>Duration</th>
+                </thead>
+                <tbody>
+                  {state?.map((d, i) => (
+                    <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
+                      <td>{new Date(d?.createdAt)?.toDateString()}</td>
+                      <td style={{ textTransform: "capitalize" }}>
+                        <span
+                          onClick={() => {
+                            setIsModalOpen(true);
+                            setTemp(d);
+                          }}
+                        >
+                          {d?.firstName + " " + d?.lastName}
+                        </span>
+                      </td>
 
-                    <td>+91 {d?.phone} </td>
-                    <td style={{ textTransform: "capitalize" }}>{d?.course}</td>
-                    <td style={{ textTransform: "capitalize" }}>
-                      {d?.duration}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+                      <td>+91 {d?.phone} </td>
+                      <td style={{ textTransform: "capitalize" }}>
+                        {d?.course}
+                      </td>
+                      <td style={{ textTransform: "capitalize" }}>
+                        {d?.duration}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
         <div className="page">
           {total > 10 && <Pagination total={total} onChange={setCurrentPage} />}
         </div>

@@ -3,6 +3,8 @@ import { Pagination } from "antd";
 import NewsModal from "../modals/NewsModal";
 import CreateNews from "../modals/CreateNews";
 import { getNews, searchnews } from "../../../redux/news";
+import NoData from "../../../components/admin/NoData";
+import LoadingTable from "../../../components/admin/LoadingTable";
 
 const DisplayNews = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,34 +78,46 @@ const DisplayNews = () => {
             <button onClick={() => setIsModalOpen2(true)}>Create News</button>
           </div>
         </div>
-        <div className="content-wrapper">
-          <table>
-            <thead>
-              <th>Date</th>
-              <th>News Title</th>
-              <th>News Discription</th>
-            </thead>
-            <tbody>
-              {state?.map((d, i) => (
-                <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
-                  <td>{new Date(d?.createdAt)?.toDateString()}</td>
-                  <td>
-                    <span
-                      onClick={() => {
-                        setIsModalOpen(true);
-                        setTemp(d);
-                      }}
-                    >
-                      {d?.title}
-                    </span>
-                  </td>
+        {state?.length === 0 && !loading ? (
+          <NoData />
+        ) : (
+          <div className="content-wrapper">
+            {loading ? (
+              <LoadingTable
+                z={[1, 2, 3]}
+                obj={["Date", "News Title", "News Discription"]}
+              />
+            ) : (
+              <table>
+                <thead>
+                  <th>Date</th>
+                  <th>News Title</th>
+                  <th>News Discription</th>
+                </thead>
+                <tbody>
+                  {state?.map((d, i) => (
+                    <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
+                      <td>{new Date(d?.createdAt)?.toDateString()}</td>
+                      <td>
+                        <span
+                          onClick={() => {
+                            setIsModalOpen(true);
+                            setTemp(d);
+                          }}
+                        >
+                          {d?.title}
+                        </span>
+                      </td>
 
-                  <td>{d?.dis?.substring(0, 100)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                      <td>{d?.dis?.substring(0, 100)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
+
         <div className="page">
           {total > 10 && <Pagination total={total} onChange={setCurrentPage} />}
         </div>

@@ -130,3 +130,13 @@ export const searchQuery = async (query) => {
     console.log(error);
   }
 };
+
+export const FetchStudents2 = async () => {
+  try {
+    return axios.get(import.meta.env.VITE_APP_BASE_URL + "/get/student2", {
+      params: {},
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -6,6 +6,7 @@ import {
   deleteertificates,
   updateCertificates,
 } from "../../../redux/certificate";
+import Swal from "sweetalert2";
 
 const CertificateModal = ({
   isModalOpen,
@@ -63,15 +64,27 @@ const CertificateModal = ({
 
   const handleDelete = async () => {
     try {
-      if (window.confirm("Are you sure you want delete this record")) {
-        setLoading2(true);
-        const result = await deleteertificates(temp?._id);
-        if (result?.data) {
-          toast.success("Certificate delete successfully");
-          fetchRecords();
-          setIsModalOpen(false);
+      Swal.fire({
+        title: "Are you sure you want delete this record?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setLoading2(true);
+          const result = await deleteertificates(temp?._id);
+          if (result?.data) {
+            Swal.fire({
+              title: "Delete!",
+              text: "Certificate delete successfully",
+              icon: "success",
+            });
+            fetchRecords();
+            setIsModalOpen(false);
+          }
         }
-      }
+      });
     } catch (error) {
       console.log(error);
     } finally {

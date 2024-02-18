@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Suspense } from "react";
 import img from "../../../assets/img/banner.jpg";
-import { Pagination } from "antd";
+import { Pagination, Skeleton } from "antd";
 import GalleryModal from "../modals/GalleryModal";
 import CreateGallery from "../modals/CreateGallery";
 import {
@@ -10,6 +10,9 @@ import {
 } from "../../../redux/gallery";
 import { Blurhash } from "react-blurhash";
 import { toast } from "react-toastify";
+import NoData from "../../../components/admin/NoData";
+import Swal from "sweetalert2";
+
 const DisplayGallery = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
@@ -42,13 +45,21 @@ const DisplayGallery = () => {
   };
 
   const DeleteRecord = async (id) => {
-    if (window.confirm("Are you Sure you want to Delete this Record")) {
-      const result = await deletegallery(id);
-      if (result?.data?.data) {
-        toast.success("Image delete successfully");
-        fetchRecords();
+    Swal.fire({
+      title: "Are you sure want delete image?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await deletegallery(id);
+        if (result?.data?.data) {
+          fetchRecords();
+          Swal.fire("Image Delete Successfully!", "", "success");
+        }
       }
-    }
+    });
   };
 
   const searchRecords = async () => {
@@ -100,54 +111,71 @@ const DisplayGallery = () => {
         </div>
       </div>
       <div className="m-wrap">
-        <div className="gallery-container">
-          {state?.map((d) => (
-            <div className="img-box" key={d?._id}>
-              <Suspense fallback={<div>Loading...</div>}>
-                {!imageLoaded && (
-                  <Blurhash
-                    hash={d?.img?.hash || "LIO9Y*TLIWM_}FwbxUW=E3NLS#s-"} // Assuming blurhash is stored in img.blurhash
-                    width={"100%"}
-                    height={300}
-                    resolutionX={32}
-                    resolutionY={32}
-                    punch={1}
-                    style={{ borderRadius: "5px" }}
-                  />
-                )}
-                <img
-                  src={d?.img?.url} // Cloudinary image URL
-                  alt="img"
-                  onLoad={handleImageLoad}
-                  style={{ display: !imageLoaded ? "none" : "block" }}
-                />
-              </Suspense>
+        {state?.length === 0 && !loading ? (
+          <NoData />
+        ) : (
+          <div className="gallery-container">
+            {loading
+              ? [1, 2, 3, 5, 6, 78, 89, 0]?.map((x) => (
+                  <div
+                    className="g-card"
+                    key={x}
+                    style={{ marginBottom: "1rem" }}
+                  >
+                    <Skeleton.Image
+                      style={{ width: "18rem", height: "16rem !important" }}
+                      active
+                    />
+                  </div>
+                ))
+              : state?.map((d) => (
+                  <div className="img-box" key={d?._id}>
+                    <Suspense fallback={<div>Loading...</div>}>
+                      {!imageLoaded && (
+                        <Blurhash
+                          hash={d?.img?.hash || "LIO9Y*TLIWM_}FwbxUW=E3NLS#s-"} // Assuming blurhash is stored in img.blurhash
+                          width={"100%"}
+                          height={300}
+                          resolutionX={32}
+                          resolutionY={32}
+                          punch={1}
+                          style={{ borderRadius: "5px" }}
+                        />
+                      )}
+                      <img
+                        src={d?.img?.url} // Cloudinary image URL
+                        alt="img"
+                        onLoad={handleImageLoad}
+                        style={{ display: !imageLoaded ? "none" : "block" }}
+                      />
+                    </Suspense>
 
-              {/* <img src={d?.img?.url} alt="img" /> */}
-              <div className="setr">
-                <div
-                  className="s"
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setTemp(d);
-                  }}
-                >
-                  <i className="bx bx-edit-alt"></i>
-                </div>
-                <div className="s" onClick={() => DeleteRecord(d?._id)}>
-                  <i
-                    className="bx bx-x"
-                    style={{ marginTop: "2px", marginRight: "1px" }}
-                  ></i>
-                </div>
-              </div>
-              <div className="caption">
-                <p>{d?.caption}</p>
-                <span>{new Date(d?.createdAt)?.toDateString()}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+                    {/* <img src={d?.img?.url} alt="img" /> */}
+                    <div className="setr">
+                      <div
+                        className="s"
+                        onClick={() => {
+                          setIsModalOpen(true);
+                          setTemp(d);
+                        }}
+                      >
+                        <i className="bx bx-edit-alt"></i>
+                      </div>
+                      <div className="s" onClick={() => DeleteRecord(d?._id)}>
+                        <i
+                          className="bx bx-x"
+                          style={{ marginTop: "2px", marginRight: "1px" }}
+                        ></i>
+                      </div>
+                    </div>
+                    <div className="caption">
+                      <p>{d?.caption}</p>
+                      <span>{new Date(d?.createdAt)?.toDateString()}</span>
+                    </div>
+                  </div>
+                ))}
+          </div>
+        )}
         {total > 10 && (
           <div className="page">
             <Pagination total={total} onChange={setCurrent} />

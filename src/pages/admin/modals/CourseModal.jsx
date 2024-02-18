@@ -4,6 +4,7 @@ import { course_category } from "../../../constants/CourseCategory";
 import { deleteCourse, updateCourse } from "../../../redux/course";
 import { encode } from "blurhash";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const CourseModal = ({ isModalOpen, setIsModalOpen, temp, fetchRecords }) => {
   const [name, setName] = useState("");
@@ -126,15 +127,28 @@ const CourseModal = ({ isModalOpen, setIsModalOpen, temp, fetchRecords }) => {
 
   const handleDelete = async () => {
     try {
-      if (window.confirm("Are you sure want to delete this record")) {
-        setLoading2(true);
-        const result = await deleteCourse(temp?._id);
-        if (result?.data?.data) {
-          toast.success("Course Delete Successfully");
-          fetchRecords();
-          setIsModalOpen(false);
+      Swal.fire({
+        title: "Are you sure you want delete this record?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setLoading2(true);
+          const result = await deleteCourse(temp?._id);
+          if (result?.data?.data) {
+            Swal.fire({
+              title: "Delete!",
+              text: "Course delete successfully",
+              icon: "success",
+            });
+
+            fetchRecords();
+            setIsModalOpen(false);
+          }
         }
-      }
+      });
     } catch (error) {
       console.log(error);
     } finally {

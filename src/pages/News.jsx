@@ -3,7 +3,8 @@ import Navbar from "../components/Nav/Navbar";
 import Footer from "../components/home/Footer";
 import { getNews } from "../redux/news";
 import NewsCard from "../components/cards/NewsCard";
-import { Pagination } from "antd";
+import { Pagination, Skeleton } from "antd";
+import img from "../assets/img/b.svg";
 
 const News = () => {
   const [state, setState] = useState([]);
@@ -49,12 +50,27 @@ const News = () => {
           and elevate your academic journey with timely and relevant
           information.
         </p>
+        {state?.length === 0 && loading === false && (
+          <div className="nodata2">
+            <img src={img} alt="image" />
+            <h4>No News Found</h4>
+          </div>
+        )}
 
-        <div className="news-body">
-          {state?.map((d) => (
-            <NewsCard d={d} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="loading" style={{ marginTop: "0.5rem" }}>
+            <Skeleton active size="small" block={true} rows={2} />
+            <br></br>
+            <Skeleton active size="small" block={true} rows={2} />
+          </div>
+        ) : (
+          <div className="news-body">
+            {state?.map((d) => (
+              <NewsCard d={d} />
+            ))}
+          </div>
+        )}
+
         <div className="page">
           {total > 10 && <Pagination total={total} onChange={setCurrentPage} />}
         </div>

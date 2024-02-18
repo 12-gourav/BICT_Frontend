@@ -6,6 +6,8 @@ import {
   getCertificates,
   searchCertificates,
 } from "../../../redux/certificate";
+import NoData from "../../../components/admin/NoData";
+import LoadingTable from "../../../components/admin/LoadingTable";
 
 const DisplayCertificate = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,38 +84,55 @@ const DisplayCertificate = () => {
             </button>
           </div>
         </div>
-        <div className="content-wrapper">
-          <table>
-            <thead>
-              <th>Date</th>
-              <th>Name</th>
-              <th>Certificate Number</th>
-              <th>Course</th>
-              <th>Category</th>
-            </thead>
-            <tbody>
-              {state?.map((d, i) => (
-                <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
-                  <td>{new Date(d?.createdAt)?.toDateString()}</td>
-                  <td>
-                    <span
-                      onClick={() => {
-                        setIsModalOpen(true);
-                        setTemp(d);
-                      }}
-                    >
-                      {d?.name}
-                    </span>
-                  </td>
+        {state?.length === 0 && !loading ? (
+          <NoData />
+        ) : (
+          <div className="content-wrapper">
+            {loading ? (
+              <LoadingTable
+                z={[1, 2, 3, 4, 5]}
+                obj={[
+                  "Date",
+                  "Name",
+                  "Certificate Number",
+                  "Course",
+                  "Category",
+                ]}
+              />
+            ) : (
+              <table>
+                <thead>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Certificate Number</th>
+                  <th>Course</th>
+                  <th>Category</th>
+                </thead>
+                <tbody>
+                  {state?.map((d, i) => (
+                    <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
+                      <td>{new Date(d?.createdAt)?.toDateString()}</td>
+                      <td>
+                        <span
+                          onClick={() => {
+                            setIsModalOpen(true);
+                            setTemp(d);
+                          }}
+                        >
+                          {d?.name}
+                        </span>
+                      </td>
 
-                  <td>{d?.certificate} </td>
-                  <td>{d?.course}</td>
-                  <td>{d?.category}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                      <td>{d?.certificate} </td>
+                      <td>{d?.course}</td>
+                      <td>{d?.category}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
         {total > 10 && (
           <div className="page">
             <Pagination total={total} onChange={setCurrent} />

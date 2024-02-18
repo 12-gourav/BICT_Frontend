@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { isLogin } from "../../redux/login";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Login = ({ loading }) => {
   const { isValid } = useSelector((state) => state.user);
@@ -75,6 +75,9 @@ const Login = ({ loading }) => {
               placeholder="Enter Your password"
             />
           </div>
+          <Link to="/" className="link">
+            Back to Home Page
+          </Link>
           <button onClick={handleLogin} disabled={loading2}>
             {loading2 ? "Loading..." : "Login"}
           </button>

@@ -3,6 +3,7 @@ import { Modal } from "antd";
 import { deleteNews, updateNews } from "../../../redux/news";
 import { LoadingOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const NewsModal = ({ isModalOpen, setIsModalOpen, temp, fetchrecords }) => {
   const [title, setTitle] = useState("");
@@ -35,15 +36,27 @@ const NewsModal = ({ isModalOpen, setIsModalOpen, temp, fetchrecords }) => {
 
   const handleDelete = async () => {
     try {
-      if (window.confirm("Are you sure you want to delete this record?")) {
-        setLoading2(true);
-        const result = await deleteNews(temp?._id);
-        if (result?.data?.data) {
-          toast.success("News Deleted Successfully");
-          fetchrecords();
-          setIsModalOpen(false);
+      Swal.fire({
+        title: "Are you sure you want delete this record?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setLoading2(true);
+          const result = await deleteNews(temp?._id);
+          if (result?.data?.data) {
+            Swal.fire({
+              title: "Delete!",
+              text: "News delete successfully",
+              icon: "success",
+            });
+            fetchrecords();
+            setIsModalOpen(false);
+          }
         }
-      }
+      });
     } catch (error) {
       console.log(error);
     } finally {

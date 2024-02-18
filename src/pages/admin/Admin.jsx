@@ -1,6 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getNews2 } from "../../redux/news";
+import NoData from "../../components/admin/NoData";
+import { Skeleton } from "antd";
+import { FetchStudents2 } from "../../redux/action";
+import LoadingTable from "../../components/admin/LoadingTable";
 
 const Admin = () => {
+  const [news, setNews] = useState([]);
+  const [state, setState] = useState("");
+  const [newsLoading, setNewsLoading] = useState(false);
+  const [student, setStudents] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchNewsRecords = async () => {
+    try {
+      setNewsLoading(true);
+      const result = await getNews2();
+      if (result?.data) {
+        setNews(result?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setNewsLoading(false);
+    }
+  };
+
+  const fetchRecords = async () => {
+    try {
+      setLoading(true);
+      const result = await FetchStudents2();
+      if (result?.data) {
+        setStudents(result?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecords();
+  }, []);
+
+  useEffect(() => {
+    fetchNewsRecords();
+  }, []);
+
   return (
     <section className="admin">
       <div className="admin-slider">
@@ -53,66 +100,75 @@ const Admin = () => {
         <div className="admin-left">
           <div className="sec1">
             <h3>Latest News</h3>
-            <ul>
-              <li>
-                <h5>Events Details</h5>
-                <p>Events Details game Changing Enviorenments are applied</p>
-                <p className="read">Read More</p>
-              </li>
-              <li>
-                <h5>Events Details</h5>
-                <p>Events Details game Changing Enviorenments are applied</p>
-                <p className="read">Read More</p>
-              </li>
-              <li>
-                <h5>Events Details</h5>
-                <p>Events Details game Changing Enviorenments are applied</p>
-                <p className="read">Read More</p>
-              </li>
-            </ul>
-          </div>
-          <div className="sec2">
-            <h3>Latest Uploads</h3>
-            <ul>
-              <li>
-                <h5>Events Details</h5>
-                <p>Events Details game Changing Enviorenments are applied</p>
-                <p className="read">Read More</p>
-              </li>
-              <li>
-                <h5>Events Details</h5>
-                <p>Events Details game Changing Enviorenments are applied</p>
-                <p className="read">Read More</p>
-              </li>
-              <li>
-                <h5>Events Details</h5>
-                <p>Events Details game Changing Enviorenments are applied</p>
-                <p className="read">Read More</p>
-              </li>
-            </ul>
+            {news?.length === 0 && !newsLoading ? (
+              <NoData />
+            ) : (
+              <ul>
+                {newsLoading ? (
+                  <div className="loading" style={{ marginTop: "0.5rem" }}>
+                    <Skeleton active size="small" block={true} rows={2} />
+                    <br></br>
+                    <Skeleton active size="small" block={true} rows={2} />
+                  </div>
+                ) : (
+                  news?.map((d) => (
+                    <li>
+                      <h5>{d?.title}</h5>
+                      <p>
+                        {d?.dis?.length > 100 && state === d?._id
+                          ? d?.dis
+                          : d?.dis?.substring(0, 100)}
+                      </p>
+
+                      {d?.dis?.length > 100 && (
+                        <p
+                          className="read"
+                          onClick={() =>
+                            setState(state === d?._id ? "" : d?._id)
+                          }
+                        >
+                          {state !== d?._id ? "Read More" : "Read Less"}
+                        </p>
+                      )}
+                    </li>
+                  ))
+                )}
+              </ul>
+            )}
           </div>
         </div>
         <div className="admin-right">
           <div className="sec1">
-            <h4>Today Addmission Details</h4>
-            <div className="table-wrap">
-              <table>
-                <thead>
-                  <th>Date</th>
-                  <th>Name</th>
-                  <th>Course</th>
-                </thead>
-                <tbody>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]?.map((d) => (
-                    <tr>
-                      <td>12 Jan 2024</td>
-                      <td>Gaurav Bajpai</td>
-                      <td>Web Development</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <h4>Recent Addmission Details</h4>
+            {student?.length === 0 && !loading ? (
+              <NoData />
+            ) : (
+              <div className="table-wrap">
+                {loading ? (
+                  <LoadingTable
+                    z={[1, 2, 3]}
+                    obj={["Date", "Name", "Course"]}
+                  />
+                ) : (
+                  <table>
+                    <thead>
+                      <th>Date</th>
+                      <th>Name</th>
+                      <th>Course</th>
+                    </thead>
+                    <tbody>
+                      {student?.map((d) => (
+                        <tr>
+                          <td>{new Date(d?.createdAt)?.toDateString()}</td>
+                          <td>{d?.firstName + " " + d?.lastName}</td>
+                          <td>{d?.course}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

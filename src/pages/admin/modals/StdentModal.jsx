@@ -3,6 +3,7 @@ import { Modal } from "antd";
 import { toast } from "react-toastify";
 import { DeleteStudent, UpdateStudent } from "../../../redux/action";
 import { LoadingOutlined } from "@ant-design/icons";
+import Swal from "sweetalert2";
 
 const StdentModal = ({
   isModalOpen,
@@ -129,15 +130,27 @@ const StdentModal = ({
 
   const handleDelete = async () => {
     try {
-      if (window.confirm("Are you sure you want to delete this record?")) {
-        setLoading2(true);
-        const result = await DeleteStudent(temp?._id);
-        if (result?.data?.data) {
-          toast.success("Record Delete Successfully");
-          setIsModalOpen(false);
-          fetchRecords();
+      Swal.fire({
+        title: "Are you sure you want delete this record?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setLoading2(true);
+          const result = await DeleteStudent(temp?._id);
+          if (result?.data?.data) {
+            Swal.fire({
+              title: "Delete!",
+              text: "Record delete successfully",
+              icon: "success",
+            });
+            setIsModalOpen(false);
+            fetchRecords();
+          }
         }
-      }
+      });
     } catch (error) {
       console.log(error);
     } finally {

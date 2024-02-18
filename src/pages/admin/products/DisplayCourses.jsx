@@ -3,6 +3,8 @@ import CreateCourseModal from "../modals/CreateCourseModal";
 import CourseModal from "../modals/CourseModal";
 import { Pagination } from "antd";
 import { getCourse, searchCourse } from "../../../redux/course";
+import NoData from "../../../components/admin/NoData";
+import LoadingTable from "../../../components/admin/LoadingTable";
 
 const DisplayCourses = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,43 +81,61 @@ const DisplayCourses = () => {
             <button onClick={() => setIsModalOpen2(true)}>Create Record</button>
           </div>
         </div>
-        <div className="content-wrapper">
-          <table>
-            <thead>
-              <th>Date</th>
-              <th>Course Name</th>
-              <th>Category</th>
-              <th>Mode</th>
-              <th>Duration</th>
-              <th>Price</th>
-            </thead>
-            <tbody>
-              {state?.map((d, i) => (
-                <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
-                  <td>{new Date(d?.createdAt)?.toDateString()}</td>
-                  <td>
-                    <span
-                      onClick={() => {
-                        setIsModalOpen(true);
-                        setTemp(d);
-                      }}
-                    >
-                      {d?.name}
-                    </span>
-                  </td>
+        {state?.length === 0 && !loading ? (
+          <NoData />
+        ) : (
+          <div className="content-wrapper">
+            {loading ? (
+              <LoadingTable
+                z={[1, 2, 3, 4, 5, 6]}
+                obj={[
+                  "Date",
+                  "Course Name",
+                  "Category",
+                  "Mode",
+                  "Duration",
+                  "Price",
+                ]}
+              />
+            ) : (
+              <table>
+                <thead>
+                  <th>Date</th>
+                  <th>Course Name</th>
+                  <th>Category</th>
+                  <th>Mode</th>
+                  <th>Duration</th>
+                  <th>Price</th>
+                </thead>
+                <tbody>
+                  {state?.map((d, i) => (
+                    <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
+                      <td>{new Date(d?.createdAt)?.toDateString()}</td>
+                      <td>
+                        <span
+                          onClick={() => {
+                            setIsModalOpen(true);
+                            setTemp(d);
+                          }}
+                        >
+                          {d?.name}
+                        </span>
+                      </td>
 
-                  <td>{d?.category} </td>
-                  <td>{d?.mode}</td>
-                  <td>{d?.duration} Months</td>
-                  <td style={{ display: "flex", alignItems: "center" }}>
-                    <i className="bx bx-rupee"></i>
-                    {d?.price}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                      <td>{d?.category} </td>
+                      <td>{d?.mode}</td>
+                      <td>{d?.duration} Months</td>
+                      <td style={{ display: "flex", alignItems: "center" }}>
+                        <i className="bx bx-rupee"></i>
+                        {d?.price}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
         {total > 10 && (
           <div className="page">
             <Pagination total={total} onChange={setCurrent} />
