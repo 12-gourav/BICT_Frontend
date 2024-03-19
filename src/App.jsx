@@ -61,8 +61,8 @@ const App = () => {
 
   return (
     <>
-      <h2>404</h2>
-      {/* <Suspense
+      
+      <Suspense
         fallback={
           <div className="big">
             <h4>
@@ -111,7 +111,7 @@ const App = () => {
             <Route path="/admin/dashboard/news" element={<DisplayNews />} />
           </Route>
         </Routes>
-      </Suspense> */}
+      </Suspense> 
     </>
   );
 };
