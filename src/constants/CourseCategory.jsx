@@ -72,4 +72,16 @@ export const course_category = [
     icon: <i className="bx bx-network-chart"></i>,
     dis: "Delve into the world of computer networks, covering topics like TCP/IP, routing, and network security. Gain practical knowledge of configuring and troubleshooting network setups.",
   },
+  {
+    id: "10",
+    name: "Vocational Training Course",
+    icon: <i className='bx bx-landscape'></i>,
+    dis: "Vocational training courses are designed to equip students with practical skills and knowledge for specific trades or professions.",
+  },
+  {
+    id: "111",
+    name: "ADCA (Advance Diploma in Computer Application)",
+    icon: <i className="bx bxs-color"></i>,
+    dis: "The Advanced Diploma in Computer Applications (ADCA) is a comprehensive course designed to provide in-depth knowledge and practical skills in various aspects of computer applications. ",
+  },
 ];

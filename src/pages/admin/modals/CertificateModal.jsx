@@ -160,11 +160,13 @@ const CertificateModal = ({
                   value={category}
                 >
                   <option value="">Select Category</option>
-                  {course_category?.map((d) => (
-                    <option key={d?.id} value={d?.name}>
-                      {d?.name}
-                    </option>
-                  ))}
+                  {course_category
+                    ?.sort((a, b) => a?.name?.localeCompare(b?.name))
+                    ?.map((d) => (
+                      <option key={d?.id} value={d?.name}>
+                        {d?.name}
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -186,10 +188,20 @@ const CertificateModal = ({
           />
         </div>
         <div className="btn-set">
-          <button className="" onClick={handleSubmit} disabled={loading}>
+          <button
+            style={{ fontWeight: "400" }}
+            className=""
+            onClick={handleSubmit}
+            disabled={loading}
+          >
             {loading ? "Uploading..." : "Update Certificate"}
           </button>
-          <button className="save" onClick={handleDelete} disabled={loading2}>
+          <button
+            style={{ fontWeight: "400" }}
+            className="save"
+            onClick={handleDelete}
+            disabled={loading2}
+          >
             {loading2 ? "Removing..." : "Delete"}
           </button>
         </div>

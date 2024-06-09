@@ -176,9 +176,9 @@ const DisplayGallery = () => {
                 ))}
           </div>
         )}
-        {total > 10 && (
+        {total > 10 &&!loading && (
           <div className="page">
-            <Pagination total={total} onChange={setCurrent} />
+            <Pagination total={total} onChange={setCurrent} current={current} />
           </div>
         )}
       </div>

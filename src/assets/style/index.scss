@@ -2348,6 +2348,17 @@ section.dashboard {
                     cursor: pointer;
                   }
                 }
+                td.adm{
+                  display: flex;
+                  flex-direction: column;
+                  span{
+                    font-weight: 500;
+                  }
+                  span:last-child{
+                    font-size: 0.8rem;
+                    font-weight: 400;
+                  }
+                }
               }
             }
           }
@@ -3102,6 +3113,7 @@ section.admin {
         flex-direction: column;
         position: relative;
         height: 100%;
+        overflow-y: auto;
         // border: 1px solid red;
         h3 {
           color: #444444;
@@ -3488,5 +3500,57 @@ section.news {
     span {
       color: #6d6d6d;
     }
+  }
+}
+
+
+.link-content{
+  li{
+    list-style: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    font-size: 0.85rem;
+    .link{
+      color: #616161;
+      text-decoration: none;
+    }
+    .link:hover{
+      color: #db0000;
+      background: #fafafa;
+    }
+  }
+  li:hover{
+    background: #fafafa;
+  }
+}
+
+.addmission-msg{
+  border: 1px solid #e5e5e5;
+  padding: 1rem;
+  border-radius: 5px;
+  h5{
+    margin: 0.5rem;
+    font-weight: 600;
+    color: #db0000;
+    margin: 0;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  p{
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    margin: 0;
+    padding: 0;
+    b{
+      font-weight: 600;
+    }
+  }
+  .flow{
+    display: flex;
+    flex-direction: column;
+    color: #656565;
+    font-size: 0.9rem;
+    line-height: 1.2rem;
   }
 }

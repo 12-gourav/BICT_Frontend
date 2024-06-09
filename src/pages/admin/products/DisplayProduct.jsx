@@ -93,14 +93,14 @@ const DisplayProduct = () => {
                   <th>Date</th>
                   <th>Name</th>
                   <th>Contact</th>
-                  <th>Course</th>
                   <th>Duration</th>
+                  <th>Payment Status</th>
                 </thead>
                 <tbody>
                   {state?.map((d, i) => (
                     <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
                       <td>{new Date(d?.createdAt)?.toDateString()}</td>
-                      <td style={{ textTransform: "capitalize" }}>
+                      <td style={{ textTransform: "capitalize" }} className="adm">
                         <span
                           onClick={() => {
                             setIsModalOpen(true);
@@ -108,15 +108,19 @@ const DisplayProduct = () => {
                           }}
                         >
                           {d?.firstName + " " + d?.lastName}
+
                         </span>
+                        <span style={{fontWeight:"400",fontSize:"0.8rem"}}>Course: {d?.course || "N/A"}</span>
+                        <span>Addmission ID: {d?.addmissionID || "N/A"}</span>
+                       
                       </td>
 
                       <td>+91 {d?.phone} </td>
                       <td style={{ textTransform: "capitalize" }}>
-                        {d?.course}
+                      {d?.duration}
                       </td>
                       <td style={{ textTransform: "capitalize" }}>
-                        {d?.duration}
+                        {d?.status}
                       </td>
                     </tr>
                   ))}
@@ -126,7 +130,7 @@ const DisplayProduct = () => {
           </div>
         )}
         <div className="page">
-          {total > 10 && <Pagination total={total} onChange={setCurrentPage} />}
+          {total > 10 && <Pagination total={total} current={currentPage} onChange={setCurrentPage} />}
         </div>
       </div>
       {isModalOpen && (

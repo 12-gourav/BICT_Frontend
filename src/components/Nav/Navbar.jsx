@@ -1,10 +1,25 @@
 import React, { useState } from "react";
 import img from "../../assets/img/logo.png";
 import { Link, useLocation } from "react-router-dom";
+import {Popover} from "antd";
 
 const Navbar = () => {
   const [state, setState] = useState(false);
   const location = useLocation();
+
+  const content = (
+    <ul className="link-content">
+      <li>
+        <Link className="link" to={"/addmission"}>Addmission Form</Link>
+      </li>
+      <li>
+        <Link className="link" to={"/addmission/check"}>Addmission Form Status</Link>
+      </li>
+    </ul>
+  )
+
+
+  
   return (
     <header>
       <div className="left">
@@ -76,10 +91,23 @@ const Navbar = () => {
                 }
                 to="/addmission"
               >
+            
                 <span>
                   <i className="bx bx-user-plus"></i>
                 </span>
-                Addmission
+                Addmission Form
+              </Link>
+              <Link
+                className={
+                  location?.pathname === "/addmission/check" ? "link active" : "link"
+                }
+                to="/addmission/check"
+              >
+            
+                <span>
+                  <i className="bx bx-user-plus"></i>
+                </span>
+                 Addmission Form Status
               </Link>
               <Link
                 className={
@@ -136,14 +164,18 @@ const Navbar = () => {
         >
           Certificate
         </Link>
-        <Link
-          className={
-            location?.pathname === "/addmission" ? "link active" : "link"
-          }
-          to="/addmission"
-        >
+        <span className={
+            location?.pathname.includes("/addmission")
+              ? "link active"
+              : "link"
+          }style={{cursor:"pointer"}}>
+          <Popover  content={content} placement="bottom">
           Addmission
-        </Link>
+          </Popover>
+    
+        </span>
+         
+  
         <Link
           className={location?.pathname === "/gallery" ? "link active" : "link"}
           to="/gallery"

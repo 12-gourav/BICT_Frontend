@@ -30,6 +30,7 @@ const StdentModal = ({
   const [enterYear, setEnterYear] = useState("");
   const [course, setCourse] = useState("");
   const [duration, setDuration] = useState("");
+  const [status,setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
 
@@ -72,6 +73,9 @@ const StdentModal = ({
       } else if (duration === "") {
         return toast.error("Duration is Required");
       }
+      else if (status === "") {
+        return toast.error("Account Status is Required");
+      }
       setLoading(true);
       const result = await UpdateStudent(
         temp?._id,
@@ -92,7 +96,8 @@ const StdentModal = ({
         enterBoard,
         enterYear,
         course,
-        duration
+        duration,
+        status
       );
 
       if (result?.data?.data) {
@@ -104,7 +109,7 @@ const StdentModal = ({
       }
     } catch (error) {
       console.log(error);
-      toast.error(error?.msg);
+      toast.error(error?.response?.data?.msg);
     } finally {
       setLoading(false);
       setFirstName("");
@@ -125,6 +130,7 @@ const StdentModal = ({
       setEnterYear("");
       setCourse("");
       setDuration("");
+      setStatus("")
     }
   };
 
@@ -177,6 +183,7 @@ const StdentModal = ({
     setEnterYear(temp?.enterYear);
     setCourse(temp?.course);
     setDuration(temp?.duration);
+    setStatus(temp?.status)
   }, [temp?.id]);
 
   return (
@@ -385,6 +392,14 @@ const StdentModal = ({
                 type="text"
                 placeholder="Enter Course Duration"
               />
+            </div>
+            <div className="group">
+              <label>Account Type:</label>
+             <select onChange={(e)=>{setStatus(e.target.value)}} value={status}>
+              <option value={""}>Select Status</option>
+              <option value={"Paid"}>Paid</option>
+              <option value={"Unpaid"}>Unpaid</option>
+             </select>
             </div>
           </div>
         </div>

@@ -41,21 +41,28 @@ const DisplayCertificate = () => {
         return fetchRecords();
       }
       setLoading2(true);
+  
       const result = await searchCertificates(current, query);
       if (result?.data?.data) {
         setState(result?.data?.data);
         setTotal(result?.data?.total || 0);
+        setCurrent(1);
       }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading2(false);
+   
     }
   };
 
   useEffect(() => {
+ 
     fetchRecords();
-  }, []);
+  }, [current]);
+
+
+  console.log(current)
 
   return (
     <section className="student">
@@ -135,7 +142,7 @@ const DisplayCertificate = () => {
         )}
         {total > 10 && (
           <div className="page">
-            <Pagination total={total} onChange={setCurrent} />
+            <Pagination total={total}current={current} onChange={setCurrent} />
           </div>
         )}
       </div>

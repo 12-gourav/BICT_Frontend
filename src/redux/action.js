@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const CreateStudent = (
   firstName,
@@ -43,6 +44,7 @@ export const CreateStudent = (
     });
   } catch (error) {
     console.log(error);
+    toast.error(error?.response?.data?.msg);
   }
 };
 
@@ -78,7 +80,8 @@ export const UpdateStudent = (
   enterBoard,
   enterYear,
   course,
-  duration
+  duration,
+  status
 ) => {
   try {
     return axios.post(import.meta.env.VITE_APP_BASE_URL + "/update/student", {
@@ -101,9 +104,11 @@ export const UpdateStudent = (
       enterYear,
       course,
       duration,
+      status
     });
   } catch (error) {
     console.log(error);
+    toast.error(error?.response?.data?.msg);
   }
 };
 
@@ -135,6 +140,20 @@ export const FetchStudents2 = async () => {
   try {
     return axios.get(import.meta.env.VITE_APP_BASE_URL + "/get/student2", {
       params: {},
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+export const SearchAddmission = async (query) => {
+  try {
+    return axios.get(import.meta.env.VITE_APP_BASE_URL + "/check/addmission", {
+      params: {
+        id:query
+      },
     });
   } catch (error) {
     console.log(error);

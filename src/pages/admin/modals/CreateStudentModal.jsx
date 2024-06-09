@@ -113,7 +113,7 @@ const CreateStdentModal = ({ isModalOpen2, setIsModalOpen2, fetchRecords }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error?.msg);
+      toast.error(error?.response?.data?.msg);
     } finally {
       setLoading(false);
     }

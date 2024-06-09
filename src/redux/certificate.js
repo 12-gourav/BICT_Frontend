@@ -63,7 +63,7 @@ export const deleteertificates = async (id) => {
 export const searchCertificates = async (current, query) => {
   try {
     return axios.get(
-      import.meta.env.VITE_APP_BASE_URL + "/search/certificates",
+      import.meta.env.VITE_APP_BASE_URL + "/search/certificate",
       {
         params: {
           limit: 10,
