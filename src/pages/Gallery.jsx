@@ -5,6 +5,7 @@ import { getGallery } from "../redux/gallery";
 import { Pagination, Skeleton } from "antd";
 import { Blurhash } from "react-blurhash";
 import img from "../assets/img/b.svg";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Gallery = () => {
   const [state, setState] = useState([]);
@@ -12,6 +13,7 @@ const Gallery = () => {
   const [current, setCurrent] = useState(1);
   const [total, setTotal] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -36,6 +38,26 @@ const Gallery = () => {
   useEffect(() => {
     fetchRecords();
   }, []);
+
+  const downloadImage = async (d,id) => {
+    try {
+      setLoading2(true);
+      const response = await fetch(d);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${id}_image.jpg`; // Set the desired file name
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error fetching the image:", error);
+    } finally {
+      setLoading2(false);
+    }
+  };
 
   return (
     <>
@@ -86,6 +108,16 @@ const Gallery = () => {
                 <div className="caption">
                   <p>{d?.caption}</p>
                   <b>{new Date(d?.createdAt).toLocaleDateString()}</b>
+                </div>
+                <div
+                  className="download-icon"
+                  onClick={() => downloadImage(d?.img?.url,d?._id)}
+                >
+                  {loading2 ? (
+                    <LoadingOutlined />
+                  ) : (
+                    <i className="bx bxs-download"></i>
+                  )}
                 </div>
               </div>
             ))}

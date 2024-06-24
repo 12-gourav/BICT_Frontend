@@ -29,9 +29,11 @@ const CreateStdentModal = ({ isModalOpen2, setIsModalOpen2, fetchRecords }) => {
     try {
       if (firstName === "") {
         return toast.error("First Name is Required");
-      } else if (lastName === "") {
-        return toast.error("Last Name is Required");
-      } else if (dob === "") {
+      }
+      //  else if (lastName === "") {
+      //   return toast.error("Last Name is Required");
+      // } 
+      else if (dob === "") {
         return toast.error("Date of Birth is Required");
       } else if (gender === "") {
         return toast.error("Gender is Required");
@@ -47,19 +49,21 @@ const CreateStdentModal = ({ isModalOpen2, setIsModalOpen2, fetchRecords }) => {
         return toast.error("Phone Number 2 is Required");
       } else if (address === "") {
         return toast.error("Address is Required");
-      } else if (tenPercent === "") {
-        return toast.error("Ten Percentage is Required");
-      } else if (tenBoard === "") {
-        return toast.error("Ten Board Name is Required");
-      } else if (tenYear === "") {
-        return toast.error("Board Year is Required");
-      } else if (enterPercent === "") {
-        return toast.error("Enter Percentage is Required");
-      } else if (enterBoard === "") {
-        return toast.error("Enter Board Name is Required");
-      } else if (enterYear === "") {
-        return toast.error("Enter Year is Required");
-      } else if (course === "") {
+      }
+      //  else if (tenPercent === "") {
+      //   return toast.error("Ten Percentage is Required");
+      // } else if (tenBoard === "") {
+      //   return toast.error("Ten Board Name is Required");
+      // } else if (tenYear === "") {
+      //   return toast.error("Board Year is Required");
+      // } else if (enterPercent === "") {
+      //   return toast.error("Enter Percentage is Required");
+      // } else if (enterBoard === "") {
+      //   return toast.error("Enter Board Name is Required");
+      // } else if (enterYear === "") {
+      //   return toast.error("Enter Year is Required");
+      // } 
+      else if (course === "") {
         return toast.error("Course Name is Required");
       } else if (duration === "") {
         return toast.error("Duration is Required");

@@ -121,6 +121,20 @@ const SidbarNav = () => {
         </div>
         <div
           className={
+            location.pathname === "/admin/dashboard/exam"
+              ? "active menu-item"
+              : "menu-item"
+          }
+        >
+          <span>
+          <i className='bx bx-book-bookmark'></i>
+          </span>
+          <Link to="/admin/dashboard/exam" className="link">
+          Exam
+          </Link>
+        </div>
+        <div
+          className={
             location.pathname === "/admin/dashboard/chat"
               ? "active menu-item"
               : "menu-item"

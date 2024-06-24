@@ -31,9 +31,11 @@ const Addmission = () => {
     try {
       if (firstName?.length === 0) {
         return toast.error("First Name can not be empty");
-      } else if (lastName?.length === 0) {
-        return toast.error("First Name can not be empty");
-      } else if (father?.length === 0) {
+      }
+      //  else if (lastName?.length === 0) {
+      //   return toast.error("First Name can not be empty");
+      // }
+       else if (father?.length === 0) {
         return toast.error("Father Name can not be empty");
       } else if (mother?.length === 0) {
         return toast.error("Mother Name can not be empty");
@@ -49,19 +51,21 @@ const Addmission = () => {
         return toast.error("Home Phone Number can not be empty");
       } else if (address?.length === 0) {
         return toast.error("Address can not be empty");
-      } else if (tenPerncentage?.length === 0) {
-        return toast.error("Tenth Percentage can not be empty");
-      } else if (tenYear?.length === 0) {
-        return toast.error("Board Year can not be empty");
-      } else if (tenBoard?.length === 0) {
-        return toast.error("Board Name can not be empty");
-      } else if (twelvePercentage?.length === 0) {
-        return toast.error("Enter Percentage can not be empty");
-      } else if (twelveYear?.length === 0) {
-        return toast.error("Board Year can not be empty");
-      } else if (tenBoard?.length === 0) {
-        return toast.error("Board Name can not be empty");
-      } else if (course?.length === 0) {
+      } 
+      // else if (tenPerncentage?.length === 0) {
+      //   return toast.error("Tenth Percentage can not be empty");
+      // } else if (tenYear?.length === 0) {
+      //   return toast.error("Board Year can not be empty");
+      // } else if (tenBoard?.length === 0) {
+      //   return toast.error("Board Name can not be empty");
+      // } else if (twelvePercentage?.length === 0) {
+      //   return toast.error("Enter Percentage can not be empty");
+      // } else if (twelveYear?.length === 0) {
+      //   return toast.error("Board Year can not be empty");
+      // } else if (tenBoard?.length === 0) {
+      //   return toast.error("Board Name can not be empty");
+      // } 
+      else if (course?.length === 0) {
         return toast.error("Course Name can not be empty");
       } else if (duration?.length === 0) {
         return toast.error("Duration can not be empty");

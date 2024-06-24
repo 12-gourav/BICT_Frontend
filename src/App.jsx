@@ -8,6 +8,8 @@ import { load } from "./redux/login";
 import { useDispatch } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
 import AddmissionSearch from "./pages/AddmissionSearch.jsx";
+import DisplayExam from "./pages/admin/products/DisplayExam.jsx";
+import Exams from "./components/home/Exams.jsx";
 
 const Home = lazy(() => import("./pages/Home"));
 const Course = lazy(() => import("./pages/Course"));
@@ -83,6 +85,7 @@ const App = () => {
           <Route path="/addmission" element={<Addmission />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/news" element={<News />} />
+          <Route path="/exams" element={<Exams />} />
           <Route path="/login" element={<Login loading={loading} />} />
 
           <Route
@@ -111,6 +114,7 @@ const App = () => {
               element={<DisplayGallery />}
             />
             <Route path="/admin/dashboard/news" element={<DisplayNews />} />
+            <Route path="/admin/dashboard/exam" element={<DisplayExam />} />
           </Route>
         </Routes>
       </Suspense> 

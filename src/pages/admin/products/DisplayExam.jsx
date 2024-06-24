@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { Pagination } from "antd";
-import StdentModal from "../modals/StdentModal";
-import CreateStdentModal from "../modals/CreateStudentModal";
-import { FetchStudents, searchQuery } from "../../../redux/action";
-import LoadingTable from "../../../components/admin/LoadingTable";
+import NewsModal from "../modals/NewsModal";
+import CreateNews from "../modals/CreateNews";
+import { getNews, searchnews } from "../../../redux/news";
 import NoData from "../../../components/admin/NoData";
+import LoadingTable from "../../../components/admin/LoadingTable";
+import CreateExam from "../modals/CreateExam";
+import { getExam, searchExam } from "../../../redux/exam";
+import ExamModal from "../modals/ExamModal";
 
-const DisplayProduct = () => {
+const DisplayExam = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+
   const [state, setState] = useState([]);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [query, setQuery] = useState("");
   const [temp, setTemp] = useState();
-  const [flag, setFlag] = useState(false);
+  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const fetchRecords = async () => {
+  const fetchrecords = async () => {
     try {
       setLoading(true);
-      const result = await FetchStudents(currentPage);
+      const result = await getExam(currentPage);
       if (result?.data?.data) {
         setState(result?.data?.data);
         setTotal(result?.data?.total);
-  
+        setCurrentPage(1);
       }
     } catch (error) {
       console.log(error);
@@ -33,17 +36,16 @@ const DisplayProduct = () => {
     }
   };
 
-  const SearchResult = async () => {
+  const searchNews = async () => {
     try {
       if (query === "") {
-        return fetchRecords();
+        return fetchrecords();
       }
       setLoading(true);
-      const result = await searchQuery(query);
+      const result = await searchExam(currentPage, query);
       if (result?.data?.data) {
         setState(result?.data?.data);
         setTotal(result?.data?.total);
-        setCurrentPage(1)
       }
     } catch (error) {
       console.log(error);
@@ -53,30 +55,30 @@ const DisplayProduct = () => {
   };
 
   useEffect(() => {
-    fetchRecords();
-  }, [currentPage, flag]);
+    fetchrecords();
+  }, [currentPage]);
 
   return (
     <section className="student">
       <div className="search-bar">
         <input
-          type="text"
-          placeholder="Search"
           onChange={(e) => setQuery(e.target.value)}
           value={query}
+          type="text"
+          placeholder="Search"
         />
-        <button onClick={SearchResult} disabled={loading}>
+        <button onClick={searchNews} disabled={loading}>
           <i className="bx bx-search"></i>
         </button>
       </div>
-      <p className="info-text">Search by Name, Email Address, Phone Number</p>
+      <p className="info-text">Search by Date</p>
       <div className="wrapper">
         <div className="info-top">
           <p>
             Display {state?.length} out of {total} Records
           </p>
           <div className="btn-set">
-            <button onClick={() => setIsModalOpen2(true)}>Create Record</button>
+            <button onClick={() => setIsModalOpen2(true)}>Create Exam</button>
           </div>
         </div>
         {state?.length === 0 && !loading ? (
@@ -85,44 +87,34 @@ const DisplayProduct = () => {
           <div className="content-wrapper">
             {loading ? (
               <LoadingTable
-                z={[1, 2, 3, 4, 5]}
-                obj={["Date", "Name", "Contact", "Course", "Duration"]}
+                z={[1, 2, 3]}
+                obj={["Date", "News Title", "News Discription"]}
               />
             ) : (
               <table>
                 <thead>
                   <th>Date</th>
-                  <th>Name</th>
-                  <th>Contact</th>
-                  <th>Duration</th>
-                  <th>Payment Status</th>
+                  <th>Exam Title</th>
+                  <th>Exam Discription</th>
+                  <th>Exam Link</th>
                 </thead>
                 <tbody>
                   {state?.map((d, i) => (
                     <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
                       <td>{new Date(d?.createdAt)?.toDateString()}</td>
-                      <td style={{ textTransform: "capitalize" }} className="adm">
+                      <td>
                         <span
                           onClick={() => {
                             setIsModalOpen(true);
                             setTemp(d);
                           }}
                         >
-                          {d?.firstName + " " + d?.lastName}
-
+                          {d?.title}
                         </span>
-                        <span style={{fontWeight:"400",fontSize:"0.8rem"}}>Course: {d?.course || "N/A"}</span>
-                        <span>Addmission ID: {d?.addmissionID || "N/A"}</span>
-                       
                       </td>
 
-                      <td>+91 {d?.phone} </td>
-                      <td style={{ textTransform: "capitalize" }}>
-                      {d?.duration}
-                      </td>
-                      <td style={{ textTransform: "capitalize" }}>
-                        {d?.status}
-                      </td>
+                      <td>{d?.discription?.substring(0, 100)}</td>
+                      <td><a href={d?.link} target="_blank" >{d?.link}</a></td>
                     </tr>
                   ))}
                 </tbody>
@@ -130,22 +122,22 @@ const DisplayProduct = () => {
             )}
           </div>
         )}
+
         <div className="page">
-          {total > 10 && <Pagination total={total} current={currentPage} onChange={setCurrentPage} />}
+          {total > 10 && <Pagination total={total} onChange={setCurrentPage} />}
         </div>
       </div>
       {isModalOpen && (
-        <StdentModal
+        <ExamModal
           temp={temp}
-          setFlag={setFlag}
-          fetchRecords={fetchRecords}
+          fetchrecords={fetchrecords}
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
         />
       )}
       {isModalOpen2 && (
-        <CreateStdentModal
-          fetchRecords={fetchRecords}
+        <CreateExam
+          fetchrecords={fetchrecords}
           isModalOpen2={isModalOpen2}
           setIsModalOpen2={setIsModalOpen2}
         />
@@ -154,4 +146,4 @@ const DisplayProduct = () => {
   );
 };
 
-export default DisplayProduct;
+export default DisplayExam;

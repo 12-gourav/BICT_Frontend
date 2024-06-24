@@ -162,8 +162,8 @@ const Course = () => {
                     <div className="product-card-body-first">
                       <h4>{d?.name}</h4>
                       <h2>
-                        <i className="bx bx-rupee"></i>
-                        {d?.price}
+                     
+                      ₹{d?.price}
                       </h2>
                     </div>
                     <p>

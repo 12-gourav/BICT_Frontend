@@ -6,12 +6,15 @@ import { toast } from "react-toastify";
 import { searchSingleCertificates } from "../redux/certificate";
 import img from "../assets/img/b.svg";
 import { Skeleton } from "antd";
+import { jsPDF } from "jspdf";
+import {LoadingOutlined} from "@ant-design/icons";
 
 const CertificateSearch = () => {
   const [state, setState] = useState(false);
   const [loading, setLoading] = useState(false);
   const [state2, setState2] = useState([]);
   const [query, setQuery] = useState("");
+  const [loading2, setLoading2] = useState(false);
 
   const handleSubmit = async () => {
     try {
@@ -41,6 +44,29 @@ const CertificateSearch = () => {
     }
   }, [state]);
 
+  const downloadPdf = async () => {
+    try {
+      setLoading2(true);
+      const response = await fetch(state2?.img?.url);
+      const blob = await response.blob();
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        const base64data = reader.result;
+
+        const pdf = new jsPDF();
+        pdf.addImage(base64data, "JPEG", 15, 40, 180, 160);
+        pdf.save(`Certificate_${state2?._id}.pdf`);
+      };
+
+      reader.readAsDataURL(blob);
+    } catch (error) {
+      console.error("Error fetching the image:", error);
+    } finally {
+      setLoading2(false);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -61,12 +87,12 @@ const CertificateSearch = () => {
               value={query}
             />
             <button onClick={handleSubmit} disabled={loading}>
-              {loading ? "Searching..." : "Search"}
+              {loading ?<LoadingOutlined/> : "Search"}
             </button>
           </div>
           {loading ? (
             <div className="display">
-              <Skeleton.Image active />
+              <Skeleton.Image active  style={{minHeight:"400px"}}/>
             </div>
           ) : (
             <div className="display">
@@ -81,7 +107,12 @@ const CertificateSearch = () => {
                   <h4>No Certificate Found!</h4>
                 </div>
               ) : (
-                <img src={state2?.img?.url} className="cer" />
+                <div className="certificate-image">
+                  <img src={state2?.img?.url} className="cer" />
+                  <button onClick={downloadPdf} disabled={loading2}>
+                    {loading2 ? <LoadingOutlined/> : "Download Certificate"}
+                  </button>
+                </div>
               )}
             </div>
           )}

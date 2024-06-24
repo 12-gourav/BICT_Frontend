@@ -4,10 +4,12 @@ import { deleteNews, updateNews } from "../../../redux/news";
 import { LoadingOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { deleteExam, updateExam } from "../../../redux/exam";
 
-const NewsModal = ({ isModalOpen, setIsModalOpen, temp, fetchrecords }) => {
+const ExamModal = ({ isModalOpen, setIsModalOpen, temp, fetchrecords }) => {
   const [title, setTitle] = useState("");
   const [dis, setDis] = useState("");
+  const [link,setLink] = useState("");
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
 
@@ -18,10 +20,13 @@ const NewsModal = ({ isModalOpen, setIsModalOpen, temp, fetchrecords }) => {
       } else if (dis === "") {
         return toast.error("Discription is Required");
       }
+      else if (link === "") {
+        return toast.error("Link is Required");
+      }
       setLoading(true);
-      const result = await updateNews(temp?._id, title, dis);
+      const result = await updateExam(temp?._id, title, dis,link);
       if (result?.data?.data) {
-        toast.success("News Updated Successfully");
+        toast.success("Exam Updated Successfully");
         fetchrecords();
         setIsModalOpen(false);
       }
@@ -45,11 +50,11 @@ const NewsModal = ({ isModalOpen, setIsModalOpen, temp, fetchrecords }) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           setLoading2(true);
-          const result = await deleteNews(temp?._id);
+          const result = await deleteExam(temp?._id);
           if (result?.data?.data) {
             Swal.fire({
               title: "Delete!",
-              text: "News delete successfully",
+              text: "Exam delete successfully",
               icon: "success",
             });
             fetchrecords();
@@ -66,7 +71,8 @@ const NewsModal = ({ isModalOpen, setIsModalOpen, temp, fetchrecords }) => {
 
   useEffect(() => {
     setTitle(temp?.title);
-    setDis(temp?.dis);
+    setDis(temp?.discription);
+    setLink(temp?.link)
   }, [temp?._id]);
 
   return (
@@ -75,7 +81,7 @@ const NewsModal = ({ isModalOpen, setIsModalOpen, temp, fetchrecords }) => {
       width={1000}
       title={
         <div className="s-top">
-          <h3>News Details</h3>
+          <h3>Exam Details</h3>
         </div>
       }
       open={isModalOpen}
@@ -86,30 +92,40 @@ const NewsModal = ({ isModalOpen, setIsModalOpen, temp, fetchrecords }) => {
       <section className="course-modal">
         <div className="course-wrap">
           <div className="course-mid2">
-            <label>News Title</label>
+            <label>Exam Title</label>
             <input
               onChange={(e) => setTitle(e.target.value)}
               value={title}
               type="text"
-              placeholder="Enter News title"
+              placeholder="Enter Exam title"
             />
           </div>
           <div className="course-mid2">
-            <label>News Discription</label>
+            <label>Exam Link</label>
+            <input
+              onChange={(e) => setLink(e.target.value)}
+              value={link}
+              type="text"
+              placeholder="Paste Exam Link"
+            />
+          </div>
+          <div className="course-mid2">
+            <label>Exam Discription</label>
             <textarea
               onChange={(e) => setDis(e.target.value)}
               value={dis}
               type="text"
-              placeholder="Enter News Discription"
+              placeholder="Enter Exam Discription"
             />
           </div>
+    
         </div>
         <div className="btn-set">
           <button disabled={loading} onClick={handleSubmit}>
-            {loading ? <LoadingOutlined /> : "Update News"}
+            {loading ? <LoadingOutlined /> : "Update Exam"}
           </button>
           <button className="save" disabled={loading2} onClick={handleDelete}>
-            {loading2 ? <LoadingOutlined /> : "Delete News"}
+            {loading2 ? <LoadingOutlined /> : "Delete Exam"}
           </button>
         </div>
       </section>
@@ -117,4 +133,4 @@ const NewsModal = ({ isModalOpen, setIsModalOpen, temp, fetchrecords }) => {
   );
 };
 
-export default NewsModal;
+export default ExamModal;
