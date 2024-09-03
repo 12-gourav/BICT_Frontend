@@ -91,7 +91,8 @@ const Exams = () => {
               <div className="exam-card" key={d?._id}>
                 <h2>{d?.title}</h2>
                 <p>{d?.discription}</p>
-                <button onClick={() => openLink(d?.link)}>Start Exam</button>
+                <a href={d?.link} target="_bkank">Start Exam</a>
+                {/* <button onClick={() => openLink(d?.link)}>Start Exam</button> */}
               </div>
             ))
           )}

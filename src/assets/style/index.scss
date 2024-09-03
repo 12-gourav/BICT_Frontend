@@ -3684,9 +3684,10 @@ h2{
       }
       p{
         font-size: 0.8rem;
+        margin-bottom: 0.5rem;
       }
-      button{
-        margin-top: 0.5rem;
+      a{
+        // margin-top: 1rem;
         border: none;
         outline: none;
         color: #fff;
@@ -3697,6 +3698,7 @@ h2{
         font-weight: 600;
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         cursor: pointer;
+        text-decoration: none;
       }
     }
   
