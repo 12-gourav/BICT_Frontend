@@ -58,7 +58,7 @@ export const deleteResult = async (id) => {
 export const searchResult = async (roll) => {
   try {
     return axios.get(
-      import.meta.env.VITE_APP_BASE_URL + "/search/result/by/number",
+      import.meta.env.VITE_APP_BASE_URL + "/get/result/by/id",
       {
         params: {
         roll

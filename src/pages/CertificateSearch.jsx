@@ -47,7 +47,7 @@ const CertificateSearch = () => {
   const downloadPdf = async () => {
     try {
       setLoading2(true);
-      const response = await fetch(state2?.img?.url);
+      const response = await fetch(state2?.img?.url?.replace("http","https"));
       const blob = await response.blob();
       const reader = new FileReader();
 

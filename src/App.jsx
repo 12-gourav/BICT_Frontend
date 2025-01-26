@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { load } from "./redux/login";
 import { useDispatch } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
+import ResultSearch from "./pages/ResultSearch.jsx";
 
 const Home = lazy(() => import("./pages/Home"));
 const Course = lazy(() => import("./pages/Course"));
@@ -85,6 +86,7 @@ const App = () => {
           <Route path="/course" element={<Course />} />
           <Route path="/course/:id" element={<CourseDetail />} />
           <Route path="/certificate/search" element={<CertificateSearch />} />
+          <Route path="/result/search" element={<ResultSearch />} />
           <Route path="/addmission/check" element={<AddmissionSearch />} />
           <Route path="/addmission" element={<Addmission />} />
           <Route path="/gallery" element={<Gallery />} />

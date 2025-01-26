@@ -1680,6 +1680,54 @@ section.certificate {
           cursor: pointer;
         }
       }
+      .certificate-image2{
+        width: 100%;
+        height: fit-content;
+        border: 1px solid #e4e4e4;
+        border-radius: 5px;
+        padding: 1rem;
+        .form-wrap{
+          width: 100%;
+          display: flex;
+          margin-bottom: 10px;
+          .form-group{
+            width: 100%;
+            label{
+              font-size: 0.8rem;
+              color: #807f7f;
+            }
+            p{
+              margin: 0;
+              font-size: 0.85rem;
+              color: #000;
+              margin-top: 5px;
+            }
+          }
+        }
+        .rib{
+          width: 100%;
+          background: #02814c;
+          padding: 0.5rem;
+          border-radius: 3px;
+          text-align: center;
+          color: #fff;
+          font-size: 0.8rem;
+          margin: 1rem 0;
+        }
+        .rib2{
+          width: 100%;
+          background: #ff0019;
+          padding: 0.5rem;
+          border-radius: 3px;
+          text-align: center;
+          color: #fff;
+          font-size: 0.8rem;
+          margin: 1rem 0;
+        }
+        p.note{
+          font-size: 0.8rem;
+        }
+      }
     }
   }
 }

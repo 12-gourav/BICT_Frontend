@@ -109,6 +109,20 @@ const MobileNav = ({ state, setState }) => {
             </div>
             <div
               className={
+                location.pathname === "/admin/dashboard/result"
+                  ? "active menu-item"
+                  : "menu-item"
+              }
+              onClick={() => setState(false)}
+            >
+              <span>
+              <i className='bx bx-bulb'></i>              </span>
+              <Link to="/admin/dashboard/result" className="link">
+                Result
+              </Link>
+            </div>
+            <div
+              className={
                 location.pathname === "/admin/dashboard/gallery"
                   ? "active menu-item"
                   : "menu-item"

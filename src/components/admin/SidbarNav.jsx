@@ -99,8 +99,7 @@ const SidbarNav = () => {
           }
         >
           <span>
-            <i className="bx bx-certification"></i>
-          </span>
+          <i className='bx bx-bulb'></i>          </span>
           <Link to="/admin/dashboard/results" className="link">
             Results
           </Link>

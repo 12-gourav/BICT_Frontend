@@ -98,6 +98,18 @@ const Navbar = () => {
               </Link>
               <Link
                 className={
+                  location?.pathname === "/result/search"
+                    ? "link active"
+                    : "link"
+                }
+                to="/result/search"
+              >
+                <span>
+                <i className='bx bx-bulb'></i>                </span>
+                Result
+              </Link>
+              <Link
+                className={
                   location?.pathname === "/addmission" ? "link active" : "link"
                 }
                 to="/addmission"
@@ -180,6 +192,16 @@ const Navbar = () => {
           to="/certificate/search"
         >
           Certificate
+        </Link>
+        <Link
+          className={
+            location?.pathname === "/result/search"
+              ? "link active"
+              : "link"
+          }
+          to="/result/search"
+        >
+          Result
         </Link>
         <span className={
             location?.pathname.includes("/addmission")
