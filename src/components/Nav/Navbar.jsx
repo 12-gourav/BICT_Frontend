@@ -85,6 +85,18 @@ const Navbar = () => {
               </Link>
               <Link
                 className={
+                  location?.pathname === "/result/search"
+                    ? "link active"
+                    : "link"
+                }
+                to="/result/search"
+              >
+                <span>
+                <i className='bx bx-bulb'></i>                </span>
+                Result
+              </Link>
+              <Link
+                className={
                   location?.pathname === "/certificate/search"
                     ? "link active"
                     : "link"
@@ -96,18 +108,7 @@ const Navbar = () => {
                 </span>
                 Certificate
               </Link>
-              <Link
-                className={
-                  location?.pathname === "/result/search"
-                    ? "link active"
-                    : "link"
-                }
-                to="/result/search"
-              >
-                <span>
-                <i className='bx bx-bulb'></i>                </span>
-                Result
-              </Link>
+   
               <Link
                 className={
                   location?.pathname === "/addmission" ? "link active" : "link"
@@ -185,16 +186,6 @@ const Navbar = () => {
         </Link>
         <Link
           className={
-            location?.pathname === "/certificate/search"
-              ? "link active"
-              : "link"
-          }
-          to="/certificate/search"
-        >
-          Certificate
-        </Link>
-        <Link
-          className={
             location?.pathname === "/result/search"
               ? "link active"
               : "link"
@@ -203,6 +194,17 @@ const Navbar = () => {
         >
           Result
         </Link>
+        <Link
+          className={
+            location?.pathname === "/certificate/search"
+              ? "link active"
+              : "link"
+          }
+          to="/certificate/search"
+        >
+          Certificate
+        </Link>
+        
         <span className={
             location?.pathname.includes("/addmission")
               ? "link active"
