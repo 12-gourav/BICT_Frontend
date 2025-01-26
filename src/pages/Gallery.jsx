@@ -42,7 +42,7 @@ const Gallery = () => {
   const downloadImage = async (url, id) => {
     try {
       setLoading2(true);
-      const downloadUrl = `${url.replace("/upload/", "/upload/fl_attachment:")}`;
+      const downloadUrl = `${url.replace("/upload/", "/upload/fl_attachment:")?.replace("http","https")}`;
       const a = document.createElement("a");
       a.href = downloadUrl; 
       a.download = `${id}_image.jpg`; 
