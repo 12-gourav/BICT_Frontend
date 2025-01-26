@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import CreateCertificateModal from "../modals/CreateCertificateModal";
 import CertificateModal from "../modals/CertificateModal";
-import {
-  getCertificates,
-  searchCertificates,
-} from "../../../redux/certificate";
+import { getResults } from "../../../redux/result";
 import NoData from "../../../components/admin/NoData";
 import LoadingTable from "../../../components/admin/LoadingTable";
+import CreateResultModal from "../modals/CreateResultModal";
+import ResultModal from "../modals/ResultModal";
 
-const DisplayCertificate = () => {
+const DisplayResult = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [query, setQuery] = useState("");
@@ -23,7 +22,7 @@ const DisplayCertificate = () => {
   const fetchRecords = async () => {
     try {
       setLoading(true);
-      const result = await getCertificates(current);
+      const result = await getResults(current, query);
       if (result?.data?.data) {
         setState(result?.data?.data);
         setTotal(result?.data?.total || 0);
@@ -41,16 +40,12 @@ const DisplayCertificate = () => {
         return fetchRecords();
       }
       setLoading2(true);
-      const result = await new Promise((resolve) =>
-        setTimeout(async () => {
-          const data = await searchCertificates(current, query);
-          resolve(data);
-        }, 1000)
-      );
 
+      const result = await fetchRecords(current, query);
       if (result?.data?.data) {
         setState(result?.data?.data);
         setTotal(result?.data?.total || 0);
+        setCurrent(1);
       }
     } catch (error) {
       console.log(error);
@@ -60,13 +55,8 @@ const DisplayCertificate = () => {
   };
 
   useEffect(() => {
-    SearchRec();
+    fetchRecords();
   }, [current]);
-
-  
-
-
-
 
   return (
     <section className="student">
@@ -77,12 +67,12 @@ const DisplayCertificate = () => {
           type="text"
           placeholder="Search"
         />
-        <button onClick={()=>{setCurrent(1);SearchRec()}} disabled={loading2}>
+        <button onClick={SearchRec} disabled={loading2}>
           <i className="bx bx-search"></i>
         </button>
       </div>
       <p className="info-text">
-        Search by Name, Date, Certificate Number, Course and Category
+        Search by Name, Father Name, Roll Number and Course
       </p>
       <div className="wrapper">
         <div className="info-top">
@@ -90,9 +80,7 @@ const DisplayCertificate = () => {
             Display {state?.length} out of {total} Records
           </p>
           <div className="btn-set">
-            <button onClick={() => setIsModalOpen2(true)}>
-              Create Certificate
-            </button>
+            <button onClick={() => setIsModalOpen2(true)}>Create Result</button>
           </div>
         </div>
         {state?.length === 0 && !loading ? (
@@ -105,9 +93,10 @@ const DisplayCertificate = () => {
                 obj={[
                   "Date",
                   "Name",
-                  "Certificate Number",
+                  "Father Name",
+                  "Roll Number",
                   "Course",
-                  "Category",
+                  "Pass Status",
                 ]}
               />
             ) : (
@@ -115,9 +104,10 @@ const DisplayCertificate = () => {
                 <thead>
                   <th>Date</th>
                   <th>Name</th>
-                  <th>Certificate Number</th>
+                  <th>Father Name</th>
+                  <th>Roll Number</th>
                   <th>Course</th>
-                  <th>Category</th>
+                  <th>Pass Status</th>
                 </thead>
                 <tbody>
                   {state?.map((d, i) => (
@@ -133,10 +123,17 @@ const DisplayCertificate = () => {
                           {d?.name}
                         </span>
                       </td>
+                      <td>{d?.fatherName}</td>
 
-                      <td>{d?.certificate} </td>
+                      <td>{d?.rollNumber} </td>
                       <td>{d?.course}</td>
-                      <td>{d?.category}</td>
+                      <td>
+                        {d?.status ? (
+                          <span className="approved">Pass</span>
+                        ) : (
+                          <span className="fail">Fail</span>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -151,7 +148,7 @@ const DisplayCertificate = () => {
         )}
       </div>
       {isModalOpen && (
-        <CertificateModal
+        <ResultModal
           temp={temp}
           fetchRecords={fetchRecords}
           isModalOpen={isModalOpen}
@@ -159,7 +156,7 @@ const DisplayCertificate = () => {
         />
       )}
       {isModalOpen2 && (
-        <CreateCertificateModal
+        <CreateResultModal
           isModalOpen2={isModalOpen2}
           fetchRecords={fetchRecords}
           setIsModalOpen2={setIsModalOpen2}
@@ -169,4 +166,4 @@ const DisplayCertificate = () => {
   );
 };
 
-export default DisplayCertificate;
+export default DisplayResult;

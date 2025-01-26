@@ -93,6 +93,20 @@ const SidbarNav = () => {
         </div>
         <div
           className={
+            location.pathname === "/admin/dashboard/results"
+              ? "active menu-item"
+              : "menu-item"
+          }
+        >
+          <span>
+            <i className="bx bx-certification"></i>
+          </span>
+          <Link to="/admin/dashboard/results" className="link">
+            Results
+          </Link>
+        </div>
+        <div
+          className={
             location.pathname === "/admin/dashboard/gallery"
               ? "active menu-item"
               : "menu-item"

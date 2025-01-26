@@ -7,9 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { load } from "./redux/login";
 import { useDispatch } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
-import AddmissionSearch from "./pages/AddmissionSearch.jsx";
-import DisplayExam from "./pages/admin/products/DisplayExam.jsx";
-import Exams from "./components/home/Exams.jsx";
 
 const Home = lazy(() => import("./pages/Home"));
 const Course = lazy(() => import("./pages/Course"));
@@ -36,6 +33,14 @@ const Admin = lazy(() => import("./pages/admin/Admin"));
 const Login = lazy(() => import("./pages/auth/Login"));
 const News = lazy(() => import("./pages/News.jsx"));
 const Auth = lazy(() => import("./pages/auth/Auth"));
+const AddmissionSearch = lazy(() => import("./pages/AddmissionSearch.jsx"));
+const DisplayExam = lazy(() =>
+  import("./pages/admin/products/DisplayExam.jsx")
+);
+const Exams = lazy(() => import("./components/home/Exams.jsx"));
+const DisplayResult = lazy(() =>
+  import("./pages/admin/products/DisplayResult.jsx")
+);
 
 const App = () => {
   const token = localStorage.getItem("token");
@@ -64,7 +69,6 @@ const App = () => {
 
   return (
     <>
-      
       <Suspense
         fallback={
           <div className="big">
@@ -110,6 +114,10 @@ const App = () => {
               element={<DisplayCertificate />}
             />
             <Route
+              path="/admin/dashboard/results"
+              element={<DisplayResult />}
+            />
+            <Route
               path="/admin/dashboard/gallery"
               element={<DisplayGallery />}
             />
@@ -117,7 +125,7 @@ const App = () => {
             <Route path="/admin/dashboard/exam" element={<DisplayExam />} />
           </Route>
         </Routes>
-      </Suspense> 
+      </Suspense>
     </>
   );
 };

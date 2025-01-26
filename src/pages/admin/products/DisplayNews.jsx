@@ -24,7 +24,7 @@ const DisplayNews = () => {
       if (result?.data?.data) {
         setState(result?.data?.data);
         setTotal(result?.data?.total);
-        setCurrentPage(1);
+
       }
     } catch (error) {
       console.log(error);
@@ -38,11 +38,21 @@ const DisplayNews = () => {
       if (query === "") {
         return fetchrecords();
       }
+  
       setLoading(true);
-      const result = await searchnews(currentPage, query);
+      setCurrentPage(1);
+  
+      // Delay execution with setTimeout and wait for the result.
+      const result = await new Promise((resolve) =>
+        setTimeout(async () => {
+          const data = await searchnews(currentPage, query);
+          resolve(data);
+        }, 1000)
+      );
+  
       if (result?.data?.data) {
-        setState(result?.data?.data);
-        setTotal(result?.data?.total);
+        setState(result.data.data);
+        setTotal(result.data.total);
       }
     } catch (error) {
       console.log(error);
@@ -119,7 +129,7 @@ const DisplayNews = () => {
         )}
 
         <div className="page">
-          {total > 10 && <Pagination total={total} onChange={setCurrentPage} />}
+          {total > 10 && <Pagination total={total} current={currentPage} onChange={setCurrentPage} />}
         </div>
       </div>
       {isModalOpen && (

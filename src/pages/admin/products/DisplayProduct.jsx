@@ -24,7 +24,6 @@ const DisplayProduct = () => {
       if (result?.data?.data) {
         setState(result?.data?.data);
         setTotal(result?.data?.total);
-  
       }
     } catch (error) {
       console.log(error);
@@ -38,12 +37,18 @@ const DisplayProduct = () => {
       if (query === "") {
         return fetchRecords();
       }
+      setCurrentPage(1)
       setLoading(true);
-      const result = await searchQuery(query);
+      const result = await new Promise((resolve) =>
+        setTimeout(async () => {
+          const data = await searchQuery(query);
+          resolve(data);
+        }, 1000)
+      );
+
       if (result?.data?.data) {
         setState(result?.data?.data);
         setTotal(result?.data?.total);
-        setCurrentPage(1)
       }
     } catch (error) {
       console.log(error);
@@ -101,7 +106,10 @@ const DisplayProduct = () => {
                   {state?.map((d, i) => (
                     <tr className={i % 2 === 0 ? "active" : ""} key={d?._id}>
                       <td>{new Date(d?.createdAt)?.toDateString()}</td>
-                      <td style={{ textTransform: "capitalize" }} className="adm">
+                      <td
+                        style={{ textTransform: "capitalize" }}
+                        className="adm"
+                      >
                         <span
                           onClick={() => {
                             setIsModalOpen(true);
@@ -109,19 +117,24 @@ const DisplayProduct = () => {
                           }}
                         >
                           {d?.firstName + " " + d?.lastName}
-
                         </span>
-                        <span style={{fontWeight:"400",fontSize:"0.8rem"}}>Course: {d?.course || "N/A"}</span>
+                        <span style={{ fontWeight: "400", fontSize: "0.8rem" }}>
+                          Course: {d?.course || "N/A"}
+                        </span>
                         <span>Addmission ID: {d?.addmissionID || "N/A"}</span>
-                       
                       </td>
 
                       <td>+91 {d?.phone} </td>
                       <td style={{ textTransform: "capitalize" }}>
-                      {d?.duration}
+                        {d?.duration}
                       </td>
                       <td style={{ textTransform: "capitalize" }}>
-                        {d?.status}
+                        <span
+                          className={d?.status === "Paid" ? "approved" : "fail"}
+                        >
+                          {" "}
+                          {d?.status}
+                        </span>
                       </td>
                     </tr>
                   ))}
@@ -131,7 +144,13 @@ const DisplayProduct = () => {
           </div>
         )}
         <div className="page">
-          {total > 10 && <Pagination total={total} current={currentPage} onChange={setCurrentPage} />}
+          {total > 10 && (
+            <Pagination
+              total={total}
+              current={currentPage}
+              onChange={setCurrentPage}
+            />
+          )}
         </div>
       </div>
       {isModalOpen && (

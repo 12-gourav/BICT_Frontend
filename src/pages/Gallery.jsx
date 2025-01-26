@@ -39,26 +39,23 @@ const Gallery = () => {
     fetchRecords();
   }, []);
 
-  const downloadImage = async (d,id) => {
+  const downloadImage = async (url, id) => {
     try {
       setLoading2(true);
-      const response = await fetch(d);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      const downloadUrl = `${url.replace("/upload/", "/upload/fl_attachment:")}`;
       const a = document.createElement("a");
-      a.href = url;
-      a.download = `${id}_image.jpg`; // Set the desired file name
+      a.href = downloadUrl; 
+      a.download = `${id}_image.jpg`; 
       document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(url);
+      a.click(); // Trigger the download
+      document.body.removeChild(a); // Clean up the DOM
     } catch (error) {
-      console.error("Error fetching the image:", error);
+      console.error("Error downloading the image:", error);
     } finally {
       setLoading2(false);
     }
   };
-
+  
   return (
     <>
       <Navbar />

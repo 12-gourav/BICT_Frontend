@@ -72,7 +72,7 @@ const News = () => {
         )}
 
         <div className="page">
-          {total > 10 && <Pagination total={total} onChange={setCurrentPage} />}
+          {total > 10 && <Pagination total={total} current={currentPage} onChange={setCurrentPage} />}
         </div>
       </section>
       <Footer />

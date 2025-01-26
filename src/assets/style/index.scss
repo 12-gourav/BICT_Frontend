@@ -1644,6 +1644,7 @@ section.certificate {
         font-size: 1rem;
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
+        cursor: pointer;
       }
     }
     .display {
@@ -2326,12 +2327,13 @@ section.dashboard {
           border-top-right-radius: 5px;
           border-bottom-right-radius: 5px;
           font-size: 1.1rem;
+          cursor: pointer;
         }
       }
       p.info-text {
         color: #797979;
-        font-size: 0.9rem;
-        margin-top: 2px;
+        font-size: 0.7rem;
+        margin-top: 4px;
         margin-left: 2px;
       }
       .wrapper {
@@ -2348,7 +2350,7 @@ section.dashboard {
           padding-right: 0.5rem;
           p {
             color: #797979;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
           }
           .btn-set {
             display: flex;
@@ -2385,6 +2387,7 @@ section.dashboard {
                 position: sticky;
                 top: 0;
                 z-index: 4;
+                font-size: 0.8rem;
               }
               th:nth-child(1) {
                 width: 130px;
@@ -2396,7 +2399,7 @@ section.dashboard {
                 td {
                   padding: 0.5rem;
                   border: 1px solid #f8f8f8;
-                  font-size: 0.9rem;
+                  font-size: 0.82rem;
                   color: #444444;
                   line-height: 1.3rem;
                   text-overflow: ellipsis;
@@ -2423,6 +2426,9 @@ section.dashboard {
                     font-size: 0.8rem;
                     font-weight: 400;
                   }
+                }
+                td.active{
+             font-weight: 500;
                 }
               }
             }
@@ -3256,7 +3262,7 @@ section.admin {
               padding: 0.4rem;
               text-align: left;
               color: #fff;
-              font-size: 0.9rem;
+              font-size: 0.8rem;
               padding-left: 0.5rem;
               position: sticky;
               top: 0;
@@ -3709,4 +3715,21 @@ h2{
   section.exam{
     padding: 10px;
   }
+}
+
+.approved{
+  background-color: #F0F9FF;
+  color: #0284C7;
+  padding: 0.3rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+}
+
+.fail{
+  background-color: #FFF1F2;
+  color: #BE123C;
+  padding: 0.3rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  
 }
