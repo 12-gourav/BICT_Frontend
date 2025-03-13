@@ -91,8 +91,8 @@ const ResultSearch = () => {
                       <p>{state2?.rollNumber}</p>
                     </div>
                   </div>
-                  <div className={state2?.status ? "rib":"rib2"}>
-                    {state2?.status ? "Passed" : "Fail"}
+                  <div className={String(state2?.status)==="true" ? "rib":"rib2"}>
+                    {String(state2?.status)==="true" ? "Passed" : "Fail"}
                   </div>
                   <p className="note">
                     Your results have been processed. Whether you’ve passed or

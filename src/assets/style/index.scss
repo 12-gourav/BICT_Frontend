@@ -3781,3 +3781,33 @@ h2{
   font-size: 0.75rem;
   
 }
+
+.download_open{
+  margin-top: 1rem;
+  p{
+    padding: 8px 10px;
+    cursor: pointer;
+    background: #fafafa;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+    color: #464646;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  p:hover{
+    background:#db0000 ;
+    color: #fff;
+  }
+}
+.modal-head{
+  border-bottom: 1px solid #e4e4e4;
+  padding-bottom: 5px;
+  h4{
+    color: #444444;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+}

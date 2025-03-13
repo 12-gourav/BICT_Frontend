@@ -152,8 +152,8 @@ const ResultModal = ({
                   value={status}
                 >
                   <option value="">Select Status</option>
-                  <option value={true}>Pass</option>
-                  <option value={false}>Fail</option>
+                  <option value={"true"}>Pass</option>
+                  <option value={"false"}>Fail</option>
                 </select>
               </div>
             </div>

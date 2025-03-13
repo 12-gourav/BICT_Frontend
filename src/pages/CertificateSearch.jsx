@@ -5,9 +5,9 @@ import Confetti from "react-confetti";
 import { toast } from "react-toastify";
 import { searchSingleCertificates } from "../redux/certificate";
 import img from "../assets/img/b.svg";
-import { Skeleton } from "antd";
+import { Modal, Skeleton } from "antd";
 import { jsPDF } from "jspdf";
-import {LoadingOutlined} from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const CertificateSearch = () => {
   const [state, setState] = useState(false);
@@ -15,6 +15,7 @@ const CertificateSearch = () => {
   const [state2, setState2] = useState([]);
   const [query, setQuery] = useState("");
   const [loading2, setLoading2] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
     try {
@@ -44,19 +45,81 @@ const CertificateSearch = () => {
     }
   }, [state]);
 
+  const downloadImage = async () => {
+    try {
+      setLoading2(true);
+
+      // Fetch the image from Cloudinary (original size)
+      const response = await fetch(state2?.img?.url?.replace("http", "https"));
+      const blob = await response.blob();
+
+      // Create a download link
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Certificate_${state2?._id}.jpg`; // Save as JPG
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading the image:", error);
+    } finally {
+      setLoading2(false);
+    }
+  };
+
   const downloadPdf = async () => {
     try {
       setLoading2(true);
-      const response = await fetch(state2?.img?.url?.replace("http","https"));
+
+      // Fetch the image as a blob
+      const response = await fetch(state2?.img?.url?.replace("http", "https"));
       const blob = await response.blob();
       const reader = new FileReader();
 
       reader.onloadend = () => {
         const base64data = reader.result;
 
-        const pdf = new jsPDF();
-        pdf.addImage(base64data, "JPEG", 15, 40, 180, 160);
-        pdf.save(`Certificate_${state2?._id}.pdf`);
+        // Create an A4 PDF (210mm x 297mm)
+        const pdf = new jsPDF({
+          orientation: "portrait",
+          unit: "mm",
+          format: "a4",
+        });
+
+        const pageWidth = 210;
+        const pageHeight = 297;
+
+        // Create an Image to get its natural dimensions
+        const img = new Image();
+        img.src = base64data;
+        img.onload = () => {
+          const imgWidth = img.width;
+          const imgHeight = img.height;
+
+          // Calculate aspect ratio
+          const aspectRatio = imgWidth / imgHeight;
+
+          // Set max dimensions for A4
+          let displayWidth = pageWidth - 30; // Keep margin
+          let displayHeight = displayWidth / aspectRatio;
+
+          // If height exceeds page height, adjust
+          if (displayHeight > pageHeight - 40) {
+            displayHeight = pageHeight - 40;
+            displayWidth = displayHeight * aspectRatio;
+          }
+
+          // Center the image
+          const x = (pageWidth - displayWidth) / 2;
+          const y = (pageHeight - displayHeight) / 2;
+
+          pdf.addImage(base64data, "JPEG", x, y, displayWidth, displayHeight);
+          pdf.save(`Certificate_${state2?._id}.pdf`);
+        };
       };
 
       reader.readAsDataURL(blob);
@@ -87,12 +150,12 @@ const CertificateSearch = () => {
               value={query}
             />
             <button onClick={handleSubmit} disabled={loading}>
-              {loading ?<LoadingOutlined/> : "Search"}
+              {loading ? <LoadingOutlined /> : "Search"}
             </button>
           </div>
           {loading ? (
             <div className="display">
-              <Skeleton.Image active  style={{minHeight:"400px"}}/>
+              <Skeleton.Image active style={{ minHeight: "400px" }} />
             </div>
           ) : (
             <div className="display">
@@ -109,8 +172,8 @@ const CertificateSearch = () => {
               ) : (
                 <div className="certificate-image">
                   <img src={state2?.img?.url} className="cer" />
-                  <button onClick={downloadPdf} disabled={loading2}>
-                    {loading2 ? <LoadingOutlined/> : "Download Certificate"}
+                  <button onClick={() => setOpen(true)} disabled={loading2}>
+                    {loading2 ? <LoadingOutlined /> : "Download Certificate"}
                   </button>
                 </div>
               )}
@@ -118,9 +181,44 @@ const CertificateSearch = () => {
           )}
         </div>
       </section>
+      {open && (
+        <DownloadOpenModal
+          open={open}
+          setOpen={setOpen}
+          jpgDownload={downloadImage}
+          pdfDownload={downloadPdf}
+        />
+      )}
+
       <Footer />
     </>
   );
 };
 
 export default CertificateSearch;
+
+export const DownloadOpenModal = ({
+  open,
+  setOpen,
+  pdfDownload,
+  jpgDownload,
+}) => {
+  return (
+    <Modal
+      centered
+      open={open}
+      onCancel={() => setOpen(false)}
+      title={
+        <div className="modal-head">
+          <h4>Download Certificate</h4>
+        </div>
+      }
+      footer={false}
+    >
+      <div className="download_open">
+        <p onClick={() => jpgDownload()}> <i className='bx bxs-cloud-download'></i>Download Certificate in JPG Formate</p>
+        <p onClick={() => pdfDownload()}> <i className='bx bxs-cloud-download'></i>Download Certificate in PDF Formate</p>
+      </div>
+    </Modal>
+  );
+};

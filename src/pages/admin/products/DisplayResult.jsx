@@ -128,7 +128,7 @@ const DisplayResult = () => {
                       <td>{d?.rollNumber} </td>
                       <td>{d?.course}</td>
                       <td>
-                        {d?.status ? (
+                        {String(d?.status)==="true" ? (
                           <span className="approved">Pass</span>
                         ) : (
                           <span className="fail">Fail</span>
